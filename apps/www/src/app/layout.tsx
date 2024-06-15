@@ -1,10 +1,5 @@
-import { headers } from 'next/headers';
-
-import { wagmiConfig } from '~/lib/viem';
-
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
-import { cookieToInitialState } from 'wagmi';
 import { Web3Provider } from '~/providers';
 import '~/styles/globals.css';
 
@@ -17,15 +12,10 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  const initialState = cookieToInitialState(
-    wagmiConfig,
-    headers().get('cookie')
-  );
-
   return (
     <html lang='en'>
       <body className={`font-sans ${GeistSans.variable}`}>
-        <Web3Provider initialState={initialState}>{children}</Web3Provider>
+        <Web3Provider>{children}</Web3Provider>
         <Toaster />
       </body>
     </html>
