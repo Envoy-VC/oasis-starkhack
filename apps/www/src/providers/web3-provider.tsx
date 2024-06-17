@@ -17,6 +17,7 @@ import {
   useDisconnect,
   voyager,
 } from '@starknet-react/core';
+import { Navbar } from '~/components';
 import { env } from '~/env';
 
 export const Web3Provider = ({ children }: PropsWithChildren) => {
@@ -27,7 +28,10 @@ export const Web3Provider = ({ children }: PropsWithChildren) => {
       provider={publicProvider()}
     >
       <DynamicProvider>
-        <SyncDynamicStarknet>{children}</SyncDynamicStarknet>
+        <SyncDynamicStarknet>
+          <Navbar />
+          {children}
+        </SyncDynamicStarknet>
       </DynamicProvider>
     </StarknetConfig>
   );

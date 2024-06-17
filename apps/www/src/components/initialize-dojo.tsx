@@ -8,10 +8,12 @@ import { useDojo } from '~/lib/hooks';
 
 const InitializeDojo = () => {
   const { initialize } = useDojo();
+
   useEffect(() => {
     void initialize();
   }, [initialize]);
-  return <div className='text-transparent'>a</div>;
+
+  return <div className='text-transparent' />;
 };
 
 export default InitializeDojo;

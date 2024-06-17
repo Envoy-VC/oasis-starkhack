@@ -65,5 +65,3 @@ export const useDojo = () => {
     setAccount,
   };
 };
-
-export default useDojo;
