@@ -1,6 +1,6 @@
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
-import { Web3Provider } from '~/providers';
+import { DojoProvider, Web3Provider } from '~/providers';
 import '~/styles/globals.css';
 
 import { Toaster } from '~/components/ui/sonner';
@@ -15,7 +15,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en'>
       <body className={`font-sans ${GeistSans.variable}`}>
-        <Web3Provider>{children}</Web3Provider>
+        <Web3Provider>
+          <DojoProvider>{children}</DojoProvider>
+        </Web3Provider>
         <Toaster />
       </body>
     </html>

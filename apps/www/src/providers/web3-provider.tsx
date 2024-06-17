@@ -52,7 +52,8 @@ const DynamicProvider = ({ children }: PropsWithChildren) => {
     <DynamicContextProvider
       settings={{
         walletConnectors: [StarknetWalletConnectors],
-        environmentId: env.NEXT_PUBLIC_DYNAMIC_ENV_ID,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- safe
+        environmentId: env.NEXT_PUBLIC_DYNAMIC_ENV_ID as string,
         events: {
           onAuthSuccess: ({ primaryWallet }) => {
             if (!primaryWallet) return;
