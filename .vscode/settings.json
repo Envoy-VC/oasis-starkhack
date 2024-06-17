@@ -11,5 +11,6 @@
   "solidity.formatter": "forge",
   "cairo1.enableLanguageServer": true,
   "cairo1.enableScarb": true,
-  "cairo1.languageServerPath": "${userHome}/.dojo/bin/dojo-language-server"
+  "cairo1.languageServerPath": "~/.dojo/bin/dojo-language-server",
+  "cSpell.words": ["dojoengine"]
 }
