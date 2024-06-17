@@ -1,97 +1,149 @@
-use oasis::models::moves::Direction;
-use oasis::models::position::Position;
-use dojo::base::base::{IWorldDispatcher,ContractState};
+use oasis::models::game::Game;
+use dojo::base::base::{ContractState,IWorldDispatcher};
+use core::zeroable::Zeroable;
 
-// define the interface
 #[dojo::interface]
-trait IActions<T> {
-    fn spawn(ref world: IWorldDispatcher);
-    fn move(ref world: IWorldDispatcher, direction: Direction);
-}
-
-fn next_position(mut position: Position, direction: Direction) -> Position {
-    match direction {
-        Direction::None => { return position; },
-        Direction::Left => { position.vec.x -= 1; },
-        Direction::Right => { position.vec.x += 1; },
-        Direction::Up => { position.vec.y -= 1; },
-        Direction::Down => { position.vec.y += 1; },
-    };
-    position
+trait IGameActions<T> {
+    fn spawn_game(ref world: IWorldDispatcher, start_time: u64);
+    fn join_game(ref world: IWorldDispatcher, game_id: felt252);
+    fn update_board(ref world: IWorldDispatcher, game_id: felt252, board_id: felt252);
 }
 
 #[dojo::contract]
 mod actions {
-    use super::{IActions, next_position};
-    use starknet::{ContractAddress, get_caller_address};
-    use oasis::models::{
-        position::{Position, Vec2}, moves::{Moves, Direction, DirectionsAvailable}
+    use core::zeroable::Zeroable;
+    use starknet::contract_address::ContractAddressZero;
+    use starknet::{
+        ContractAddress,
+        get_caller_address,
+        get_block_timestamp,
+        contract_address_to_felt252,
+        get_contract_address
     };
+    use super::IGameActions;
 
-    #[derive(Copy, Drop, Serde)]
-    #[dojo::model]
-    #[dojo::event]
-    struct Moved {
-        #[key]
-        player: ContractAddress,
-        direction: Direction,
-    }
+    use oasis::models::game::{Game,Player};
+    use oasis::models::token::{ERC721Meta,ERC721Balance,ERC721Owner};
+    use oasis::interfaces::token_interface::ERC721ABI;
 
+    // Game Actions
     #[abi(embed_v0)]
-    impl ActionsImpl of IActions<ContractState> {
-        fn spawn(ref world: IWorldDispatcher) {
-            // Get the address of the current caller, possibly the player's address.
-            let player = get_caller_address();
-            // Retrieve the player's current position from the world.
-            let position = get!(world, player, (Position));
+    impl GameActionsImpl of IGameActions<ContractState> {
+        fn spawn_game(ref world: IWorldDispatcher, start_time: u64) {
+            let caller = get_caller_address();
+            let start: felt252 = start_time.into();
+            let game_id = pedersen::pedersen(caller.into(), start);
 
-            // Update the world state with the new data.
-            // 1. Set the player's remaining moves to 100.
-            // 2. Move the player's position 10 units in both the x and y direction.
-            // 3. Set available directions to all four directions. (This is an example of how you can use an array in Dojo).
-
-            let directions_available = DirectionsAvailable {
-                player,
-                directions: array![
-                    Direction::Up, Direction::Right, Direction::Down, Direction::Left
-                ],
+            let player_1 = Player { address: caller, board_id: 0 ,game_id};
+            let default_player = Player { 
+                address: ContractAddressZero::zero(),
+                board_id: 0,
+                game_id,
             };
 
-            set!(
-                world,
-                (
-                    Moves {
-                        player, remaining: 100, last_direction: Direction::None(()), can_move: true
-                    },
-                    Position {
-                        player, vec: Vec2 { x: position.vec.x + 10, y: position.vec.y + 10 }
-                    },
-                    directions_available
-                )
-            );
+            let game = Game {
+                game_id: game_id,
+                game_start: start_time,
+                player_1,
+                player_2: default_player,
+                player_3: default_player,
+                player_4: default_player,
+                total_players: 1,
+            };
+
+            set!(world,(game));
+        }
+        fn join_game(ref world: IWorldDispatcher, game_id: felt252) {
+            let caller = get_caller_address();
+            let mut game: Game = get!(world, game_id, (Game));
+            let player = Player { address: caller, board_id: 0, game_id };
+
+            if(game.total_players == 4) {
+                return;
+            }
+
+            if game.total_players == 1 {
+                game.player_2 = player;
+                game.total_players += 1;
+            } else if game.total_players == 2 {
+                game.player_3 = player;
+                game.total_players += 1;
+            } else if game.total_players == 3 {
+                game.player_4 = player;
+                game.total_players += 1;
+            }
+
+            set!(world,(game));
+        }
+        fn update_board(ref world: IWorldDispatcher, game_id: felt252, board_id: felt252) {
+            let caller = get_caller_address();
+            let mut player: Player = get!(world, (caller, game_id), (Player));
+            player.board_id = board_id;
+            set!(world,(player));
+        }
+    }
+
+    // Token Actions
+    #[abi(embed_v0)]
+    impl ERC721 of ERC721ABI<ContractState> {
+        fn initialize (ref world: IWorldDispatcher) {
+            let meta = ERC721Meta { token: get_contract_address(), name: 'Oasis', symbol: 'OASIS' };
+            set!(world, (meta));
         }
 
-        // Implementation of the move function for the ContractState struct.
-        fn move(ref world: IWorldDispatcher, direction: Direction) {
-            // Get the address of the current caller, possibly the player's address.
-            let player = get_caller_address();
+        fn meta(ref world: IWorldDispatcher) -> ERC721Meta {
+            let token = get_contract_address();
+            get!(world, token, (ERC721Meta))
+        }
 
-            // Retrieve the player's current position and moves data from the world.
-            let (mut position, mut moves) = get!(world, player, (Position, Moves));
+        fn name(ref world: IWorldDispatcher) -> felt252 {
+            let token = get_contract_address();
+            let meta: ERC721Meta = get!(world, token, (ERC721Meta));
+            meta.name
+        }
 
-            // Deduct one from the player's remaining moves.
-            moves.remaining -= 1;
+        fn symbol(ref world: IWorldDispatcher) -> felt252 {
+            let token = get_contract_address();
+            let meta: ERC721Meta = get!(world, token, (ERC721Meta));
+            meta.symbol
+        }
 
-            // Update the last direction the player moved in.
-            moves.last_direction = direction;
+        fn balance_of(ref world: IWorldDispatcher, account: ContractAddress) -> ERC721Balance {
+            let token = get_contract_address();
+            let balance: ERC721Balance = get!(world, (account, token), (ERC721Balance));
+            balance
+        }
 
-            // Calculate the player's next position based on the provided direction.
-            let next = next_position(position, direction);
+        fn owner_of(ref world: IWorldDispatcher, token_id: felt252) -> ERC721Owner {
+            let token = get_contract_address();
+            let owner: ERC721Owner =  get!(world, (token_id, token), (ERC721Owner));
+            owner
+        }
 
-            // Update the world state with the new moves data and position.
-            set!(world, (moves, next));
-            // Emit an event to the world to notify about the player's move.
-            emit!(world, (Moved { player, direction }));
+        fn token_uri(ref world: IWorldDispatcher, token_id: felt252) -> felt252 {
+            let token = get_contract_address();
+            let owner: ERC721Owner = get!(world, (token_id, token), (ERC721Owner));
+            owner.token_uri
+        }
+
+       fn mint(
+            ref world: IWorldDispatcher, 
+            address: ContractAddress, 
+            token_id: felt252, 
+            token_uri: felt252
+        ) {
+            let token = get_contract_address();
+            // check if token exists
+            let owner: ERC721Owner = get!(world, (token_id, token), (ERC721Owner));
+            if owner.address != ContractAddressZero::zero() {
+                return;
+            }
+            let owner = ERC721Owner { address, token_uri, token, token_id };
+            let mut balance: ERC721Balance = get!(world, (token, address), (ERC721Balance));
+            balance.amount += 1;
+
+            set!(world, (owner));
+            set!(world, (balance));
         }
     }
 }
