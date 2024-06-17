@@ -11,8 +11,8 @@
     "lib": ["dom", "dom.iterable", "ES2022", "ES2023"],
     "noEmit": true,
     "module": "ESNext",
-    "moduleResolution": "Bundler",
     "jsx": "preserve",
-    
-  },
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true
+  }
 }
