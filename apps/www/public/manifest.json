@@ -999,10 +999,10 @@
         ]
       }
     ],
-    "address": "0x409fd9cd81d4ae080587e4da37afacc12e2f9c54e2dbbc3c2f33d3bc8810272",
-    "transaction_hash": "0x18dee182169d0cc5fbec57f9f1bc4f808cc11844f1b2aadc78bc6a615457948",
+    "address": "0x6fa7fa3957de2627d47b860075884c01f45c62461579f4881eee6ab5a9e87bd",
+    "transaction_hash": "0x2805ebf990c8f00230e733e3e38843c57a63bb361b1a2d4134e077491ba6ace",
     "block_number": 3,
-    "seed": "oasis",
+    "seed": "starksketch",
     "metadata": {
       "profile_name": "dev",
       "rpc_url": "http://localhost:5050/"
@@ -1019,9 +1019,9 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x3685464e63efdd79215925fac81901510af06362c74e5e318e472ecc6bc5d48",
-      "class_hash": "0x155a8c0b50de8bd92012928690e8ff89439db0d547a2345ca9d010aacda10c3",
-      "original_class_hash": "0x155a8c0b50de8bd92012928690e8ff89439db0d547a2345ca9d010aacda10c3",
+      "address": "0x2077fbbcb892c6785c7ca111da872905a3e4b3340541492e10b810ef154121b",
+      "class_hash": "0x5cb2d451ef53bad7e253fbad9729913728d8bb60ba54e3a122b81e21969d92e",
+      "original_class_hash": "0x5cb2d451ef53bad7e253fbad9729913728d8bb60ba54e3a122b81e21969d92e",
       "base_class_hash": "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46",
       "abi": [
         {
@@ -1081,11 +1081,11 @@
         {
           "type": "impl",
           "name": "GameActionsImpl",
-          "interface_name": "oasis::interfaces::game_interface::IGameActions"
+          "interface_name": "starksketch::interfaces::game_interface::IGameActions"
         },
         {
           "type": "interface",
-          "name": "oasis::interfaces::game_interface::IGameActions",
+          "name": "starksketch::interfaces::game_interface::IGameActions",
           "items": [
             {
               "type": "function",
@@ -1152,11 +1152,11 @@
         {
           "type": "impl",
           "name": "ERC721",
-          "interface_name": "oasis::interfaces::token_interface::ERC721ABI"
+          "interface_name": "starksketch::interfaces::token_interface::ERC721ABI"
         },
         {
           "type": "struct",
-          "name": "oasis::models::token::ERC721Meta",
+          "name": "starksketch::models::token::ERC721Meta",
           "members": [
             {
               "name": "token",
@@ -1188,7 +1188,7 @@
         },
         {
           "type": "struct",
-          "name": "oasis::models::token::ERC721Balance",
+          "name": "starksketch::models::token::ERC721Balance",
           "members": [
             {
               "name": "token",
@@ -1206,7 +1206,7 @@
         },
         {
           "type": "struct",
-          "name": "oasis::models::token::ERC721Owner",
+          "name": "starksketch::models::token::ERC721Owner",
           "members": [
             {
               "name": "token",
@@ -1228,7 +1228,7 @@
         },
         {
           "type": "interface",
-          "name": "oasis::interfaces::token_interface::ERC721ABI",
+          "name": "starksketch::interfaces::token_interface::ERC721ABI",
           "items": [
             {
               "type": "function",
@@ -1243,7 +1243,7 @@
               "inputs": [],
               "outputs": [
                 {
-                  "type": "oasis::models::token::ERC721Meta"
+                  "type": "starksketch::models::token::ERC721Meta"
                 }
               ],
               "state_mutability": "external"
@@ -1281,7 +1281,7 @@
               ],
               "outputs": [
                 {
-                  "type": "oasis::models::token::ERC721Balance"
+                  "type": "starksketch::models::token::ERC721Balance"
                 }
               ],
               "state_mutability": "external"
@@ -1297,7 +1297,7 @@
               ],
               "outputs": [
                 {
-                  "type": "oasis::models::token::ERC721Owner"
+                  "type": "starksketch::models::token::ERC721Owner"
                 }
               ],
               "state_mutability": "external"
@@ -1343,11 +1343,11 @@
         {
           "type": "impl",
           "name": "IDojoInitImpl",
-          "interface_name": "oasis::systems::actions::actions::IDojoInit"
+          "interface_name": "starksketch::systems::actions::actions::IDojoInit"
         },
         {
           "type": "interface",
-          "name": "oasis::systems::actions::actions::IDojoInit",
+          "name": "starksketch::systems::actions::actions::IDojoInit",
           "items": [
             {
               "type": "function",
@@ -1407,7 +1407,7 @@
         },
         {
           "type": "event",
-          "name": "oasis::systems::actions::actions::Event",
+          "name": "starksketch::systems::actions::actions::Event",
           "kind": "enum",
           "variants": [
             {
@@ -1422,7 +1422,7 @@
       "writes": [],
       "computed": [],
       "init_calldata": [],
-      "name": "oasis::systems::actions::actions"
+      "name": "starksketch::systems::actions::actions"
     }
   ],
   "models": [
@@ -1440,8 +1440,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x778dea4dadd8979334d547d08a1a0c7b20333932f6117d9df9d4532cf80a412",
-      "original_class_hash": "0x778dea4dadd8979334d547d08a1a0c7b20333932f6117d9df9d4532cf80a412",
+      "class_hash": "0x57263831cb322493af533120e82ed7cc70cba80629b25dcb188dddd9b3c9338",
+      "original_class_hash": "0x57263831cb322493af533120e82ed7cc70cba80629b25dcb188dddd9b3c9338",
       "abi": [
         {
           "type": "impl",
@@ -1764,11 +1764,11 @@
         {
           "type": "impl",
           "name": "coin_balanceImpl",
-          "interface_name": "oasis::models::coin::Icoin_balance"
+          "interface_name": "starksketch::models::coin::Icoin_balance"
         },
         {
           "type": "struct",
-          "name": "oasis::models::coin::CoinBalance",
+          "name": "starksketch::models::coin::CoinBalance",
           "members": [
             {
               "name": "address",
@@ -1782,7 +1782,7 @@
         },
         {
           "type": "interface",
-          "name": "oasis::models::coin::Icoin_balance",
+          "name": "starksketch::models::coin::Icoin_balance",
           "items": [
             {
               "type": "function",
@@ -1790,7 +1790,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "oasis::models::coin::CoinBalance"
+                  "type": "starksketch::models::coin::CoinBalance"
                 }
               ],
               "outputs": [],
@@ -1800,12 +1800,12 @@
         },
         {
           "type": "event",
-          "name": "oasis::models::coin::coin_balance::Event",
+          "name": "starksketch::models::coin::coin_balance::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "name": "oasis::models::coin::coin_balance"
+      "name": "starksketch::models::coin::coin_balance"
     },
     {
       "kind": "DojoModel",
@@ -1846,8 +1846,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x2df3a6310fd5ec298080ced280ea87b369e14b17d4b79ef95d4864e644ea4ef",
-      "original_class_hash": "0x2df3a6310fd5ec298080ced280ea87b369e14b17d4b79ef95d4864e644ea4ef",
+      "class_hash": "0x4ccabf5137969f6faab8ac041868955a9a7954664e0e60d4b2745b224cda3d9",
+      "original_class_hash": "0x4ccabf5137969f6faab8ac041868955a9a7954664e0e60d4b2745b224cda3d9",
       "abi": [
         {
           "type": "impl",
@@ -2170,11 +2170,11 @@
         {
           "type": "impl",
           "name": "gameImpl",
-          "interface_name": "oasis::models::game::Igame"
+          "interface_name": "starksketch::models::game::Igame"
         },
         {
           "type": "struct",
-          "name": "oasis::models::game::Player",
+          "name": "starksketch::models::game::Player",
           "members": [
             {
               "name": "address",
@@ -2192,7 +2192,7 @@
         },
         {
           "type": "struct",
-          "name": "oasis::models::game::Game",
+          "name": "starksketch::models::game::Game",
           "members": [
             {
               "name": "game_id",
@@ -2204,19 +2204,19 @@
             },
             {
               "name": "player_1",
-              "type": "oasis::models::game::Player"
+              "type": "starksketch::models::game::Player"
             },
             {
               "name": "player_2",
-              "type": "oasis::models::game::Player"
+              "type": "starksketch::models::game::Player"
             },
             {
               "name": "player_3",
-              "type": "oasis::models::game::Player"
+              "type": "starksketch::models::game::Player"
             },
             {
               "name": "player_4",
-              "type": "oasis::models::game::Player"
+              "type": "starksketch::models::game::Player"
             },
             {
               "name": "total_players",
@@ -2226,7 +2226,7 @@
         },
         {
           "type": "interface",
-          "name": "oasis::models::game::Igame",
+          "name": "starksketch::models::game::Igame",
           "items": [
             {
               "type": "function",
@@ -2234,7 +2234,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "oasis::models::game::Game"
+                  "type": "starksketch::models::game::Game"
                 }
               ],
               "outputs": [],
@@ -2244,12 +2244,12 @@
         },
         {
           "type": "event",
-          "name": "oasis::models::game::game::Event",
+          "name": "starksketch::models::game::game::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "name": "oasis::models::game::game"
+      "name": "starksketch::models::game::game"
     },
     {
       "kind": "DojoModel",
@@ -2270,8 +2270,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x53865f26fb7b8570cab0f67c4f1f4e32b8530a02a155f148dde15024cdeba65",
-      "original_class_hash": "0x53865f26fb7b8570cab0f67c4f1f4e32b8530a02a155f148dde15024cdeba65",
+      "class_hash": "0x56352c33d8a6c7adfcf9e1eace06b1cc9a12bdce551514ebbf4214c47c7afbd",
+      "original_class_hash": "0x56352c33d8a6c7adfcf9e1eace06b1cc9a12bdce551514ebbf4214c47c7afbd",
       "abi": [
         {
           "type": "impl",
@@ -2594,11 +2594,11 @@
         {
           "type": "impl",
           "name": "playerImpl",
-          "interface_name": "oasis::models::game::Iplayer"
+          "interface_name": "starksketch::models::game::Iplayer"
         },
         {
           "type": "struct",
-          "name": "oasis::models::game::Player",
+          "name": "starksketch::models::game::Player",
           "members": [
             {
               "name": "address",
@@ -2616,7 +2616,7 @@
         },
         {
           "type": "interface",
-          "name": "oasis::models::game::Iplayer",
+          "name": "starksketch::models::game::Iplayer",
           "items": [
             {
               "type": "function",
@@ -2624,7 +2624,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "oasis::models::game::Player"
+                  "type": "starksketch::models::game::Player"
                 }
               ],
               "outputs": [],
@@ -2634,12 +2634,12 @@
         },
         {
           "type": "event",
-          "name": "oasis::models::game::player::Event",
+          "name": "starksketch::models::game::player::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "name": "oasis::models::game::player"
+      "name": "starksketch::models::game::player"
     },
     {
       "kind": "DojoModel",
@@ -2660,8 +2660,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x21ba779771185ae04e44cb25f3e2ade69a4bc4c01989df9e3717d0b968c24d2",
-      "original_class_hash": "0x21ba779771185ae04e44cb25f3e2ade69a4bc4c01989df9e3717d0b968c24d2",
+      "class_hash": "0x2fe1f5ec00e6732e15fba978b5075e1df7547ff274d9869de5317d6d0558e35",
+      "original_class_hash": "0x2fe1f5ec00e6732e15fba978b5075e1df7547ff274d9869de5317d6d0558e35",
       "abi": [
         {
           "type": "impl",
@@ -2984,7 +2984,7 @@
         {
           "type": "impl",
           "name": "rewardsImpl",
-          "interface_name": "oasis::models::game::Irewards"
+          "interface_name": "starksketch::models::game::Irewards"
         },
         {
           "type": "enum",
@@ -3002,7 +3002,7 @@
         },
         {
           "type": "struct",
-          "name": "oasis::models::game::Rewards",
+          "name": "starksketch::models::game::Rewards",
           "members": [
             {
               "name": "address",
@@ -3020,7 +3020,7 @@
         },
         {
           "type": "interface",
-          "name": "oasis::models::game::Irewards",
+          "name": "starksketch::models::game::Irewards",
           "items": [
             {
               "type": "function",
@@ -3028,7 +3028,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "oasis::models::game::Rewards"
+                  "type": "starksketch::models::game::Rewards"
                 }
               ],
               "outputs": [],
@@ -3038,12 +3038,12 @@
         },
         {
           "type": "event",
-          "name": "oasis::models::game::rewards::Event",
+          "name": "starksketch::models::game::rewards::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "name": "oasis::models::game::rewards"
+      "name": "starksketch::models::game::rewards"
     },
     {
       "kind": "DojoModel",
@@ -3064,8 +3064,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x34fd75a58803616f7ead0d43b0ae526386695e5f38de3e49f40be30a294e3dc",
-      "original_class_hash": "0x34fd75a58803616f7ead0d43b0ae526386695e5f38de3e49f40be30a294e3dc",
+      "class_hash": "0x58897378e3c300cb4856b37464ee2b51aa8c360d40bed389a172e3460071a6b",
+      "original_class_hash": "0x58897378e3c300cb4856b37464ee2b51aa8c360d40bed389a172e3460071a6b",
       "abi": [
         {
           "type": "impl",
@@ -3388,7 +3388,7 @@
         {
           "type": "impl",
           "name": "erc_721_balanceImpl",
-          "interface_name": "oasis::models::token::Ierc_721_balance"
+          "interface_name": "starksketch::models::token::Ierc_721_balance"
         },
         {
           "type": "struct",
@@ -3406,7 +3406,7 @@
         },
         {
           "type": "struct",
-          "name": "oasis::models::token::ERC721Balance",
+          "name": "starksketch::models::token::ERC721Balance",
           "members": [
             {
               "name": "token",
@@ -3424,7 +3424,7 @@
         },
         {
           "type": "interface",
-          "name": "oasis::models::token::Ierc_721_balance",
+          "name": "starksketch::models::token::Ierc_721_balance",
           "items": [
             {
               "type": "function",
@@ -3432,7 +3432,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "oasis::models::token::ERC721Balance"
+                  "type": "starksketch::models::token::ERC721Balance"
                 }
               ],
               "outputs": [],
@@ -3442,12 +3442,12 @@
         },
         {
           "type": "event",
-          "name": "oasis::models::token::erc_721_balance::Event",
+          "name": "starksketch::models::token::erc_721_balance::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "name": "oasis::models::token::erc_721_balance"
+      "name": "starksketch::models::token::erc_721_balance"
     },
     {
       "kind": "DojoModel",
@@ -3468,8 +3468,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x3d967974324d79cec50b95229ddeeec5570b0d5998cd4051af22373caff2a8d",
-      "original_class_hash": "0x3d967974324d79cec50b95229ddeeec5570b0d5998cd4051af22373caff2a8d",
+      "class_hash": "0x9e63aa446d750e9a2846b99f564e141e94399b8681657a91ca80ccd1d7c54",
+      "original_class_hash": "0x9e63aa446d750e9a2846b99f564e141e94399b8681657a91ca80ccd1d7c54",
       "abi": [
         {
           "type": "impl",
@@ -3792,11 +3792,11 @@
         {
           "type": "impl",
           "name": "erc_721_metaImpl",
-          "interface_name": "oasis::models::token::Ierc_721_meta"
+          "interface_name": "starksketch::models::token::Ierc_721_meta"
         },
         {
           "type": "struct",
-          "name": "oasis::models::token::ERC721Meta",
+          "name": "starksketch::models::token::ERC721Meta",
           "members": [
             {
               "name": "token",
@@ -3814,7 +3814,7 @@
         },
         {
           "type": "interface",
-          "name": "oasis::models::token::Ierc_721_meta",
+          "name": "starksketch::models::token::Ierc_721_meta",
           "items": [
             {
               "type": "function",
@@ -3822,7 +3822,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "oasis::models::token::ERC721Meta"
+                  "type": "starksketch::models::token::ERC721Meta"
                 }
               ],
               "outputs": [],
@@ -3832,12 +3832,12 @@
         },
         {
           "type": "event",
-          "name": "oasis::models::token::erc_721_meta::Event",
+          "name": "starksketch::models::token::erc_721_meta::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "name": "oasis::models::token::erc_721_meta"
+      "name": "starksketch::models::token::erc_721_meta"
     },
     {
       "kind": "DojoModel",
@@ -3863,8 +3863,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x5b3527f76fbe89b6ce0aae874966b812fdd387ce866d6fa05fdb0a82483bd85",
-      "original_class_hash": "0x5b3527f76fbe89b6ce0aae874966b812fdd387ce866d6fa05fdb0a82483bd85",
+      "class_hash": "0x6a426f5750fdc592471b45c75e609ed763fa9164500414b2d22998dded16492",
+      "original_class_hash": "0x6a426f5750fdc592471b45c75e609ed763fa9164500414b2d22998dded16492",
       "abi": [
         {
           "type": "impl",
@@ -4187,11 +4187,11 @@
         {
           "type": "impl",
           "name": "erc_721_ownerImpl",
-          "interface_name": "oasis::models::token::Ierc_721_owner"
+          "interface_name": "starksketch::models::token::Ierc_721_owner"
         },
         {
           "type": "struct",
-          "name": "oasis::models::token::ERC721Owner",
+          "name": "starksketch::models::token::ERC721Owner",
           "members": [
             {
               "name": "token",
@@ -4213,7 +4213,7 @@
         },
         {
           "type": "interface",
-          "name": "oasis::models::token::Ierc_721_owner",
+          "name": "starksketch::models::token::Ierc_721_owner",
           "items": [
             {
               "type": "function",
@@ -4221,7 +4221,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "oasis::models::token::ERC721Owner"
+                  "type": "starksketch::models::token::ERC721Owner"
                 }
               ],
               "outputs": [],
@@ -4231,12 +4231,12 @@
         },
         {
           "type": "event",
-          "name": "oasis::models::token::erc_721_owner::Event",
+          "name": "starksketch::models::token::erc_721_owner::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "name": "oasis::models::token::erc_721_owner"
+      "name": "starksketch::models::token::erc_721_owner"
     }
   ]
 }
