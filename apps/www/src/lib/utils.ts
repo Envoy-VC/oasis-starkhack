@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+import { type DeepMutable, type DeepMutableObject } from '~/types/liveblocks';
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -44,3 +46,19 @@ export const errorHandler = (error: unknown) => {
   }
   return 'An error occurred';
 };
+
+export function deepMutable<T>(obj: T): DeepMutable<T> {
+  if (Array.isArray(obj)) {
+    return obj.map((item) => deepMutable(item)) as unknown as DeepMutable<T>;
+  } else if (obj && typeof obj === 'object') {
+    const result = {} as DeepMutableObject<T>;
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        // Cast the key to keyof T and use it to access both obj and result
+        (result as any)[key] = deepMutable((obj as any)[key]);
+      }
+    }
+    return result as DeepMutable<T>;
+  }
+  return obj as DeepMutable<T>;
+}

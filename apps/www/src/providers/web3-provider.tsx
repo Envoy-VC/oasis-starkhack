@@ -29,8 +29,10 @@ export const Web3Provider = ({ children }: PropsWithChildren) => {
     >
       <DynamicProvider>
         <SyncDynamicStarknet>
-          <Navbar />
-          {children}
+          <div className='flex flex-col overflow-x-hidden'>
+            <Navbar />
+            {children}
+          </div>
         </SyncDynamicStarknet>
       </DynamicProvider>
     </StarknetConfig>
