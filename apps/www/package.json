@@ -7,6 +7,7 @@
     "build": "next build",
     "dev": "NODE_OPTIONS=--experimental-wasm-modules next dev",
     "format": "prettier . --write --cache",
+    "generate-components": "sudo npx @dojoengine/core public/manifest.json src/dojo/generated/contract-components.ts http://localhost:5050 0x409fd9cd81d4ae080587e4da37afacc12e2f9c54e2dbbc3c2f33d3bc8810272",
     "lint": "next lint",
     "start": "next start"
   },
