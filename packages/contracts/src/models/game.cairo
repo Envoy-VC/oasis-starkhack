@@ -5,7 +5,7 @@ use starknet::{ContractAddress,contract_address_to_felt252};
 struct Game {
     #[key]
     game_id: felt252,
-    game_start: u64,
+    word_hash: felt252,
     player_1: Player,
     player_2: Player,
     player_3: Player,
@@ -21,4 +21,14 @@ struct Player {
     #[key]
     game_id: felt252,
     board_id: felt252,
+}
+
+#[derive(Drop, Serde, Copy)]
+#[dojo::model]
+struct Rewards {
+    #[key]
+    address: ContractAddress,
+    #[key]
+    game_id: felt252,
+    claimed: bool,
 }

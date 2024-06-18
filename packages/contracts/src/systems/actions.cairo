@@ -1,13 +1,4 @@
-use oasis::models::game::Game;
 use dojo::base::base::{ContractState,IWorldDispatcher};
-use core::zeroable::Zeroable;
-
-#[dojo::interface]
-trait IGameActions<T> {
-    fn spawn_game(ref world: IWorldDispatcher, start_time: u64);
-    fn join_game(ref world: IWorldDispatcher, game_id: felt252);
-    fn update_board(ref world: IWorldDispatcher, game_id: felt252, board_id: felt252);
-}
 
 #[dojo::contract]
 mod actions {
@@ -20,22 +11,22 @@ mod actions {
         contract_address_to_felt252,
         get_contract_address
     };
-    use super::IGameActions;
 
-    use oasis::models::game::{Game,Player};
+    use oasis::models::game::{Game,Player,Rewards};
+    use oasis::models::coin::CoinBalance;
     use oasis::models::token::{ERC721Meta,ERC721Balance,ERC721Owner};
+
     use oasis::interfaces::token_interface::ERC721ABI;
+    use oasis::interfaces::game_interface::IGameActions;
 
     // Game Actions
     #[abi(embed_v0)]
     impl GameActionsImpl of IGameActions<ContractState> {
-        fn spawn_game(ref world: IWorldDispatcher, start_time: u64) {
+        fn spawn_game(ref world: IWorldDispatcher, game_id: felt252, word_hash: felt252) {
             let caller = get_caller_address();
-            let start: felt252 = start_time.into();
-            let game_id = pedersen::pedersen(caller.into(), start);
 
-            let player_1 = Player { address: caller, board_id: 0 ,game_id};
-            let default_player = Player { 
+            let player_1 = Player { address: caller, board_id: 0 , game_id };
+            let default_player = Player {
                 address: ContractAddressZero::zero(),
                 board_id: 0,
                 game_id,
@@ -43,7 +34,7 @@ mod actions {
 
             let game = Game {
                 game_id: game_id,
-                game_start: start_time,
+                word_hash,
                 player_1,
                 player_2: default_player,
                 player_3: default_player,
@@ -80,6 +71,27 @@ mod actions {
             let mut player: Player = get!(world, (caller, game_id), (Player));
             player.board_id = board_id;
             set!(world,(player));
+        }
+
+        fn guess_word(ref world: IWorldDispatcher, game_id: felt252, word: felt252) {
+            let caller = get_caller_address();
+            let game: Game = get!(world, game_id, (Game));
+
+            let hash = core::pedersen::pedersen(game_id, word);
+            let mut rewards: Rewards = get!(world, (caller,game_id), (Rewards));
+
+            if(rewards.claimed) {
+                return;
+            }
+
+            rewards.claimed = true;
+
+            if hash == game.word_hash {
+                let mut coin_balance: CoinBalance = get!(world, caller, (CoinBalance));
+                coin_balance.balance += 500;
+                set!(world,(coin_balance));
+                set!(world,(rewards));
+            }
         }
     }
 
