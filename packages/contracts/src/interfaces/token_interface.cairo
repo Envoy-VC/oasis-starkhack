@@ -1,6 +1,6 @@
 use starknet::ContractAddress;
 
-use oasis::models::token::{ERC721Owner,ERC721Balance,ERC721Meta};
+use starksketch::models::token::{ERC721Owner,ERC721Balance,ERC721Meta};
 
 #[dojo::interface]
 trait ERC721ABI<T> {

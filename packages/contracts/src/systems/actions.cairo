@@ -12,12 +12,12 @@ mod actions {
         get_contract_address
     };
 
-    use oasis::models::game::{Game,Player,Rewards};
-    use oasis::models::coin::CoinBalance;
-    use oasis::models::token::{ERC721Meta,ERC721Balance,ERC721Owner};
+    use starksketch::models::game::{Game,Player,Rewards};
+    use starksketch::models::coin::CoinBalance;
+    use starksketch::models::token::{ERC721Meta,ERC721Balance,ERC721Owner};
 
-    use oasis::interfaces::token_interface::ERC721ABI;
-    use oasis::interfaces::game_interface::IGameActions;
+    use starksketch::interfaces::token_interface::ERC721ABI;
+    use starksketch::interfaces::game_interface::IGameActions;
 
     // Game Actions
     #[abi(embed_v0)]
@@ -99,7 +99,11 @@ mod actions {
     #[abi(embed_v0)]
     impl ERC721 of ERC721ABI<ContractState> {
         fn initialize (ref world: IWorldDispatcher) {
-            let meta = ERC721Meta { token: get_contract_address(), name: 'Oasis', symbol: 'OASIS' };
+            let meta = ERC721Meta { 
+                token: get_contract_address(), 
+                name: 'StarkSketch', 
+                symbol: 'SKETCH' 
+            };
             set!(world, (meta));
         }
 
