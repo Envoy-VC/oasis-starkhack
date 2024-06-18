@@ -11,12 +11,25 @@ export type ContractComponents = Awaited<
 
 export function defineContractComponents(world: World) {
   return {
+    CoinBalance: (() => {
+      return defineComponent(
+        world,
+        { address: RecsType.BigInt, balance: RecsType.BigInt },
+        {
+          metadata: {
+            name: 'CoinBalance',
+            types: ['contractaddress', 'u128'],
+            customTypes: [],
+          },
+        }
+      );
+    })(),
     Game: (() => {
       return defineComponent(
         world,
         {
           game_id: RecsType.BigInt,
-          game_start: RecsType.BigInt,
+          word_hash: RecsType.BigInt,
           player_1: {
             address: RecsType.BigInt,
             game_id: RecsType.BigInt,
@@ -44,7 +57,7 @@ export function defineContractComponents(world: World) {
             name: 'Game',
             types: [
               'felt252',
-              'u64',
+              'felt252',
               'contractaddress',
               'felt252',
               'felt252',
@@ -76,6 +89,23 @@ export function defineContractComponents(world: World) {
           metadata: {
             name: 'Player',
             types: ['contractaddress', 'felt252', 'felt252'],
+            customTypes: [],
+          },
+        }
+      );
+    })(),
+    Rewards: (() => {
+      return defineComponent(
+        world,
+        {
+          address: RecsType.BigInt,
+          game_id: RecsType.BigInt,
+          claimed: RecsType.Boolean,
+        },
+        {
+          metadata: {
+            name: 'Rewards',
+            types: ['contractaddress', 'felt252', 'bool'],
             customTypes: [],
           },
         }
