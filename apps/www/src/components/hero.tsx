@@ -1,7 +1,9 @@
-import React, { PropsWithChildren } from 'react';
+import React, { type PropsWithChildren } from 'react';
 
 import Illustration from '~/assets/illustration.svg';
 import MousePointer from '~/assets/mouse-pointer.svg';
+
+import { NewGame } from './new-game';
 
 export const Hero = () => {
   return (
@@ -12,7 +14,7 @@ export const Hero = () => {
             <div className='relative'>
               <img
                 alt='Mouse Pointer'
-                className='absolute -bottom-24 -left-16 w-16'
+                className='absolute -bottom-24 -left-16 w-12'
                 src={MousePointer as unknown as string}
               />
               <Box>Collaborate</Box>
@@ -24,9 +26,10 @@ export const Hero = () => {
       </div>
       <img
         alt='Illustration'
-        className='mx-auto max-w-2xl w-full'
+        className='mx-auto w-full max-w-2xl'
         src={Illustration as unknown as string}
       />
+      <NewGame />
     </div>
   );
 };
