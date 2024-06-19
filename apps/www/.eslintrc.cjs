@@ -6,7 +6,7 @@ const project = resolve(__dirname, 'tsconfig.json');
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  extends: [require.resolve('config/eslint/next.js')],
+  extends: [require.resolve('config/eslint/vite.js')],
   parserOptions: { project },
   settings: {
     'import/resolver': { typescript: { project } },
