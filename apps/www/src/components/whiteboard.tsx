@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 
 import { deepMutable } from '~/lib/utils';
@@ -20,7 +18,7 @@ import { Button } from './ui/button';
 
 import { type MutableExcalidrawElement } from '~/types/liveblocks';
 
-const Whiteboard = () => {
+export const Whiteboard = () => {
   const [excalidrawAPI, setExcalidrawAPI] =
     useState<ExcalidrawImperativeAPI | null>(null);
 
@@ -135,5 +133,3 @@ const Whiteboard = () => {
     </div>
   );
 };
-
-export default Whiteboard;

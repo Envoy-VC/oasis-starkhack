@@ -3,8 +3,6 @@ import { type DojoProvider } from '@dojoengine/core';
 
 import { ActionsCalls } from './starksketch';
 
-import { type SpawnGameProps } from '~/types/dojo';
-
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
 export function setupWorld(provider: DojoProvider) {

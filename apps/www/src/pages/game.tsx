@@ -1,5 +1,4 @@
-import { Room } from '~/components/room';
-import Whiteboard from '~/components/whiteboard';
+import { Room, Whiteboard } from '~/components';
 
 const GamePage = () => {
   return (

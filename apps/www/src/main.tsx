@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom/client';
 import 'unfonts.css';
 
 import { dojoConfig } from '../dojoConfig.ts';
-import { Loading } from './Loading.tsx';
-import { DojoProvider } from './lib/dojo/DojoContext.tsx';
+import { Loading } from './pages/loading.tsx';
+import { DojoProvider } from './lib/dojo/dojo-context.tsx';
 import { setup } from './lib/dojo/generated/setup.ts';
 import { Web3Provider } from './providers/index.ts';
 import App from './router.tsx';

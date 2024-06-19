@@ -3,6 +3,7 @@
   "compilerOptions": {
     /* Bundled projects */
     "incremental": true,
+    "skipLibCheck": true,
 
     /* Path Aliases */
     "baseUrl": ".",

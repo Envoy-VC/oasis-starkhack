@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { DojoContext } from './DojoContext';
+import { DojoContext } from '../dojo/dojo-context';
 
 export const useDojo = () => {
   const context = useContext(DojoContext);
@@ -9,6 +9,6 @@ export const useDojo = () => {
 
   return {
     setup: context,
-    account: context.account,
+    account: context.burnerAccount,
   };
 };

@@ -1,9 +1,12 @@
-import { ReactNode, createContext, useContext, useMemo } from 'react';
+import { type ReactNode, createContext, useContext, useMemo } from 'react';
 
-import { BurnerAccount, useBurnerManager } from '@dojoengine/create-burner';
+import {
+  type BurnerAccount,
+  useBurnerManager,
+} from '@dojoengine/create-burner';
 import { Account } from 'starknet';
 
-import { SetupResult } from './generated/setup';
+import { type SetupResult } from './generated/setup';
 
 interface DojoContextType extends SetupResult {
   masterAccount: Account;
@@ -45,7 +48,7 @@ export const DojoProvider = ({
         masterAccount,
         burnerAccount: {
           ...burnerAccount,
-          account: burnerAccount.account || masterAccount,
+          account: burnerAccount.account ?? masterAccount,
         },
       }}
     >

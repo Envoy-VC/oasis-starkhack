@@ -9,15 +9,11 @@ export type SystemCalls = ReturnType<typeof createSystemCalls>;
 export function createSystemCalls(
   { client }: { client: IWorld },
   _contractComponents: ContractComponents,
-  { Game, Player, ERC721Balance, ERC721Owner }: ClientComponents
+  _clientComponents: ClientComponents
 ) {
-  const spawnWorld = async ({
-    account,
-    game_id,
-    word_hash,
-  }: SpawnGameProps) => {
+  const spawnWorld = async ({ account, gameId, wordHash }: SpawnGameProps) => {
     try {
-      const res = await client.actions.spawnGame(account, game_id, word_hash);
+      const res = await client.actions.spawnGame(account, gameId, wordHash);
       return res;
     } catch (e) {
       console.log(e);

@@ -4,6 +4,6 @@ export interface AccountProps {
   account: Account | AccountInterface;
 }
 export interface SpawnGameProps extends AccountProps {
-  game_id: string;
-  word_hash: string;
+  gameId: string;
+  wordHash: string;
 }
