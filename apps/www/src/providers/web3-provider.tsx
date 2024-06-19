@@ -19,7 +19,6 @@ import {
   useDisconnect,
   voyager,
 } from '@starknet-react/core';
-import { Navbar } from '~/components';
 
 export const Web3Provider = ({ children }: PropsWithChildren) => {
   return (
@@ -31,7 +30,6 @@ export const Web3Provider = ({ children }: PropsWithChildren) => {
       <DynamicProvider>
         <SyncDynamicStarknet>
           <div className={cn('flex flex-col overflow-x-hidden font-sans')}>
-            <Navbar />
             {children}
           </div>
         </SyncDynamicStarknet>

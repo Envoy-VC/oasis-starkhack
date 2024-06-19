@@ -25,6 +25,7 @@
     "@latticexyz/react": "^2.0.12",
     "@latticexyz/utils": "^2.0.12",
     "@liveblocks/client": "^2.0.3",
+    "@liveblocks/core": "^2.0.3",
     "@liveblocks/react": "^2.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "@starknet-react/chains": "^0.1.7",

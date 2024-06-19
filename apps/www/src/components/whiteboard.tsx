@@ -1,105 +1,74 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { deepMutable } from '~/lib/utils';
+import { syncWhiteboard, updateWhiteboard } from '~/lib/whiteboard';
 
 import {
   Excalidraw,
   LiveCollaborationTrigger,
+  Sidebar,
   useHandleLibrary,
 } from '@excalidraw/excalidraw';
-import { type ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
 import type { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 import { LiveList, LiveObject } from '@liveblocks/client';
 import { useStorage } from '@liveblocks/react';
 import { useMutation } from '@liveblocks/react/suspense';
 import { useAccount } from '@starknet-react/core';
 
+import { TextCopy } from './text-copy';
 import { Button } from './ui/button';
+
+import { Image, RefreshCcw } from 'lucide-react';
 
 import { type MutableExcalidrawElement } from '~/types/liveblocks';
 
-export const Whiteboard = () => {
+interface WhiteboardProps {
+  gameID: string;
+}
+
+export const Whiteboard = ({ gameID }: WhiteboardProps) => {
   const [excalidrawAPI, setExcalidrawAPI] =
     useState<ExcalidrawImperativeAPI | null>(null);
+  const [isSynced, setIsSynced] = useState<boolean>(false);
+  const [docked, setDocked] = useState<boolean>(false);
 
   const { address } = useAccount();
 
   const layers = useStorage((root) => {
-    console.log('Store Layers: ', root.layers);
-    const elements: MutableExcalidrawElement[] = [];
-    const map = new Map<string, ExcalidrawElement[]>();
-    root.layers.forEach((v, k) => {
-      const mutableObj = deepMutable(v);
-      elements.push(...mutableObj);
-      map.set(k, [...(mutableObj as ExcalidrawElement[])]);
-    });
-
-    if (!excalidrawAPI) return;
-
-    const newElements = elements as ExcalidrawElement[];
+    if (!excalidrawAPI) return null;
     const oldElements = excalidrawAPI.getSceneElements();
-    // find common elements
-    const commonElements = newElements.filter((element) =>
-      oldElements.find((e) => e.id === element.id)
-    );
-
-    // find unique elements from new and old
-    const uniqueNew = newElements.filter(
-      (element) => !commonElements.find((e) => e.id === element.id)
-    );
-    const uniqueOld = oldElements.filter(
-      (element) => !commonElements.find((e) => e.id === element.id)
-    );
-
-    // merge
-    const result = [...commonElements, ...uniqueOld, ...uniqueNew];
-
+    const res = updateWhiteboard(root.layers, oldElements);
     excalidrawAPI.updateScene({
-      elements: result,
+      elements: res.updatedBoardElements,
     });
-    return {
-      elements: result,
-      map,
-      storeElements: elements as ExcalidrawElement[],
-    };
+    return res;
   });
 
-  const shouldUpdate = (o: ExcalidrawElement[], n: ExcalidrawElement[]) => {
-    // update if the length is different and ids are different
-    if (o.length !== n.length) return true;
-    const oldIDs = new Set(o.map((e) => e.id));
-    const newIDs = new Set(n.map((e) => e.id));
-
-    for (const id of oldIDs) {
-      if (!newIDs.has(id)) return true;
-    }
-
-    return false;
-  };
+  // sync every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // sync();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [layers, excalidrawAPI, address]);
 
   const sync = () => {
     if (!excalidrawAPI) return;
     if (!layers) return;
     if (!address) return;
-    const storeElements = layers.storeElements;
-
     const boardElements = deepMutable(excalidrawAPI.getSceneElements());
 
-    // get elements that are not in the store
-    const newElements = boardElements.filter(
-      (element) => !storeElements.find((e) => e.id === element.id)
+    const { shouldUpdateScene, updatedElements } = syncWhiteboard(
+      layers,
+      boardElements,
+      address
     );
-    const updatedElements = [
-      ...(layers.map.get(address) ?? []),
-      ...newElements,
-    ] as ExcalidrawElement[];
-    const shouldUpdateScene = shouldUpdate(
-      layers.map.get(address) ?? [],
-      updatedElements
-    );
-    if (!shouldUpdateScene) return;
-    console.log('Updating Scene');
+    if (!shouldUpdateScene) {
+      setIsSynced(true);
+      return;
+    }
     updateScene(address, updatedElements as MutableExcalidrawElement[]);
+    setIsSynced(true);
   };
 
   useHandleLibrary({ excalidrawAPI });
@@ -115,21 +84,57 @@ export const Whiteboard = () => {
   );
 
   return (
-    <div>
-      <div className='mx-auto h-[80vh] w-[80vw] border-4'>
-        <Excalidraw
-          excalidrawAPI={(api) => setExcalidrawAPI(api)}
-          renderTopRightUI={() => (
+    <div className='h-screen w-full'>
+      <Excalidraw
+        excalidrawAPI={(api) => setExcalidrawAPI(api)}
+        renderTopRightUI={() => (
+          <div className='flex flex-row items-center gap-2'>
+            <Button
+              className='flex items-center gap-2'
+              disabled={isSynced}
+              onClick={sync}
+            >
+              {isSynced ? 'Synced' : 'Sync'}
+              <RefreshCcw size={16} />
+            </Button>
             <LiveCollaborationTrigger
               isCollaborating
               onSelect={() => {
-                console.log('onSelect');
+                // TODO: implement dialog with all users
               }}
             />
-          )}
-        />
-      </div>
-      <Button onClick={sync}>Sync</Button>
+            <Sidebar.Trigger
+              className='!font-semibold'
+              name='custom'
+              tab='actions'
+            >
+              Actions
+            </Sidebar.Trigger>
+          </div>
+        )}
+      >
+        <Sidebar docked={docked} name='custom' onDock={setDocked}>
+          <Sidebar.Header />
+          <Sidebar.Tabs>
+            <Sidebar.Tab className='flex flex-col gap-2 p-3' tab='actions'>
+              <div className='flex flex-row items-center gap-2'>
+                <span>Game ID:</span>
+                <TextCopy
+                  text={gameID}
+                  truncateOptions={{
+                    length: 10,
+                  }}
+                />
+              </div>
+              <Button>Save State</Button>
+              <Button className='flex items-center gap-2'>
+                <Image size={16} />
+                Mint NFT
+              </Button>
+            </Sidebar.Tab>
+          </Sidebar.Tabs>
+        </Sidebar>
+      </Excalidraw>
     </div>
   );
 };
