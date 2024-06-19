@@ -1,14 +1,13 @@
-import { DojoConfig, DojoProvider } from '@dojoengine/core';
+import { type DojoConfig, DojoProvider } from '@dojoengine/core';
 import { BurnerManager } from '@dojoengine/create-burner';
 import { getSyncEntities } from '@dojoengine/state';
 import * as torii from '@dojoengine/torii-client';
-import { Account, WeierstrassSignatureType } from 'starknet';
+import { Account, type WeierstrassSignatureType } from 'starknet';
 
 import { createClientComponents } from '../create-client-components';
 import { createSystemCalls } from '../create-system-calls';
 import { defineContractComponents } from './contract-components';
 import { setupWorld } from './generated';
-import { ActionsCalls } from './starksketch';
 import { world } from './world';
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
@@ -18,11 +17,13 @@ export async function setup({ ...config }: DojoConfig) {
     rpcUrl: config.rpcUrl,
     toriiUrl: config.toriiUrl,
     relayUrl: '',
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- safe
     worldAddress: config.manifest.world.address || '',
   });
 
   const contractComponents = defineContractComponents(world);
   const clientComponents = createClientComponents({ contractComponents });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any -- safe
   await getSyncEntities(toriiClient, contractComponents as any, []);
 
   const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
@@ -31,7 +32,7 @@ export async function setup({ ...config }: DojoConfig) {
 
   const masterAccount = new Account(
     {
-      rpc: config.rpcUrl,
+      nodeUrl: config.rpcUrl,
     },
     config.masterAddress,
     config.masterPrivateKey
@@ -65,7 +66,7 @@ export async function setup({ ...config }: DojoConfig) {
       clientComponents
     ),
     publish: (typedData: string, signature: WeierstrassSignatureType) => {
-      toriiClient.publishMessage(typedData, {
+      void toriiClient.publishMessage(typedData, {
         r: signature.r.toString(),
         s: signature.s.toString(),
       });
