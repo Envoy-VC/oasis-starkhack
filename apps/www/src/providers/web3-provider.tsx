@@ -17,8 +17,9 @@ import {
   useDisconnect,
   voyager,
 } from '@starknet-react/core';
+
 import { Navbar } from '~/components';
-import { env } from '~/env';
+import { cn } from '~/lib/utils';
 
 export const Web3Provider = ({ children }: PropsWithChildren) => {
   return (
@@ -29,7 +30,7 @@ export const Web3Provider = ({ children }: PropsWithChildren) => {
     >
       <DynamicProvider>
         <SyncDynamicStarknet>
-          <div className='flex flex-col overflow-x-hidden'>
+          <div className={cn('flex flex-col overflow-x-hidden font-sans')}>
             <Navbar />
             {children}
           </div>
@@ -59,7 +60,7 @@ const DynamicProvider = ({ children }: PropsWithChildren) => {
       settings={{
         walletConnectors: [StarknetWalletConnectors],
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- safe
-        environmentId: env.NEXT_PUBLIC_DYNAMIC_ENV_ID as string,
+        environmentId: import.meta.env.VITE_DYNAMIC_ENV_ID as string,
         events: {
           onAuthSuccess: ({ primaryWallet }) => {
             if (!primaryWallet) return;
