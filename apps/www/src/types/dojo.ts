@@ -4,5 +4,6 @@ export interface AccountProps {
   account: Account | AccountInterface;
 }
 export interface SpawnGameProps extends AccountProps {
-  startTime: bigint;
+  game_id: string;
+  word_hash: string;
 }
