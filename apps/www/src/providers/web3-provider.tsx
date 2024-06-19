@@ -2,6 +2,8 @@
 
 import { type PropsWithChildren, useEffect } from 'react';
 
+import { cn } from '~/lib/utils';
+
 import {
   DynamicContextProvider,
   useDynamicContext,
@@ -17,9 +19,7 @@ import {
   useDisconnect,
   voyager,
 } from '@starknet-react/core';
-
 import { Navbar } from '~/components';
-import { cn } from '~/lib/utils';
 
 export const Web3Provider = ({ children }: PropsWithChildren) => {
   return (

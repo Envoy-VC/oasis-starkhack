@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './router.tsx';
-import './styles/global.css';
+
 import 'unfonts.css';
-import { setup } from './lib/dojo/generated/setup.ts';
-import { DojoProvider } from './lib/dojo/DojoContext.tsx';
+
 import { dojoConfig } from '../dojoConfig.ts';
 import { Loading } from './Loading.tsx';
+import { DojoProvider } from './lib/dojo/DojoContext.tsx';
+import { setup } from './lib/dojo/generated/setup.ts';
 import { Web3Provider } from './providers/index.ts';
+import App from './router.tsx';
+import './styles/global.css';
 
 async function init() {
   const rootElement = document.getElementById('root');

@@ -1,17 +1,17 @@
-import { getSyncEntities } from '@dojoengine/state';
 import { DojoConfig, DojoProvider } from '@dojoengine/core';
+import { BurnerManager } from '@dojoengine/create-burner';
+import { getSyncEntities } from '@dojoengine/state';
 import * as torii from '@dojoengine/torii-client';
+import { Account, WeierstrassSignatureType } from 'starknet';
+
 import { createClientComponents } from '../create-client-components';
 import { createSystemCalls } from '../create-system-calls';
 import { defineContractComponents } from './contract-components';
-import { world } from './world';
 import { setupWorld } from './generated';
-import { Account, WeierstrassSignatureType } from 'starknet';
-import { BurnerManager } from '@dojoengine/create-burner';
+import { ActionsCalls } from './starksketch';
+import { world } from './world';
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
-
-import { ActionsCalls } from './starksketch';
 
 export async function setup({ ...config }: DojoConfig) {
   const toriiClient = await torii.createClient([], {
