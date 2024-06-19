@@ -11,6 +11,8 @@ import { BurnerManager } from '@dojoengine/create-burner';
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
+import { ActionsCalls } from './starksketch';
+
 export async function setup({ ...config }: DojoConfig) {
   const toriiClient = await torii.createClient([], {
     rpcUrl: config.rpcUrl,
@@ -25,7 +27,7 @@ export async function setup({ ...config }: DojoConfig) {
 
   const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
 
-  const client = await setupWorld(dojoProvider);
+  const client = setupWorld(dojoProvider);
 
   const masterAccount = new Account(
     {
@@ -34,10 +36,6 @@ export async function setup({ ...config }: DojoConfig) {
     config.masterAddress,
     config.masterPrivateKey
   );
-
-  console.log(masterAccount);
-  console.log(config);
-  console.log(dojoProvider);
 
   const burnerManager = new BurnerManager({
     masterAccount,

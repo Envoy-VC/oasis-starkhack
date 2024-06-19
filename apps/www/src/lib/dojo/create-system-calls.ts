@@ -17,16 +17,7 @@ export function createSystemCalls(
     word_hash,
   }: SpawnGameProps) => {
     try {
-      const res = await client.actions.spawnGame({
-        account,
-        game_id,
-        word_hash,
-      });
-      console.log(
-        await account.waitForTransaction(res.transaction_hash, {
-          retryInterval: 100,
-        })
-      );
+      const res = await client.actions.spawnGame(account, game_id, word_hash);
       return res;
     } catch (e) {
       console.log(e);
