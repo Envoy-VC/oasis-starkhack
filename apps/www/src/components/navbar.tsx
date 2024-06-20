@@ -5,11 +5,13 @@ import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 
 import Logo from '~/assets/logo.svg';
 
+import { BurnerConnect } from './burner-connect';
+
 export const Navbar = () => {
   return (
     <div className='h-[6dvh] w-full border'>
       <div className='mx-auto flex h-full max-w-screen-xl items-center justify-between px-4'>
-        <Link to='/' className='flex flex-row items-center gap-2'>
+        <Link className='flex flex-row items-center gap-2' to='/'>
           <img
             alt='StarkSketch Logo'
             className='h-10'
@@ -17,10 +19,13 @@ export const Navbar = () => {
           />
           <div className='text-2xl font-bold'>StarkSketch</div>
         </Link>
-        <DynamicWidget
-          innerButtonComponent={<div>Connect Wallet</div>}
-          variant='modal'
-        />
+        <div className='flex flex-row gap-2'>
+          <BurnerConnect />
+          <DynamicWidget
+            innerButtonComponent={<div>Connect Wallet</div>}
+            variant='modal'
+          />
+        </div>
       </div>
     </div>
   );

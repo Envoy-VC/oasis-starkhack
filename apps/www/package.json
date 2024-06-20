@@ -27,6 +27,7 @@
     "@liveblocks/client": "^2.0.3",
     "@liveblocks/core": "^2.0.3",
     "@liveblocks/react": "^2.0.3",
+    "@radix-ui/react-select": "^2.1.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@starknet-react/chains": "^0.1.7",
     "@starknet-react/core": "^2.8.2",
