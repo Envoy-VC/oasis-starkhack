@@ -23,7 +23,7 @@ export const NewGame = () => {
   };
 
   return (
-    <div className='mx-auto flex w-full max-w-3xl flex-col items-center gap-4 py-12'>
+    <div className='mx-auto flex h-screen w-full max-w-3xl flex-col items-center justify-center gap-4'>
       <div className='flex flex-col gap-2 text-center'>
         <div className='text-3xl font-medium'>Create a new game</div>
         <p className='max-w-lg text-sm font-semibold text-neutral-600'>

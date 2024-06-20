@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary -- safe  */
 import { useEffect, useState } from 'react';
 
-import { truncate } from '~/lib/utils';
+import { errorHandler, truncate } from '~/lib/utils';
 
 import { toast } from 'sonner';
 import { useCopyToClipboard } from 'usehooks-ts';
@@ -45,22 +45,7 @@ export const TextCopy = ({
       if (enableToast) toast.success('Copied to clipboard');
       setCopied(true);
     } catch (error) {
-      let errorMessage: string;
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (typeof error === 'string') {
-        errorMessage = error;
-      } else if (
-        error &&
-        typeof error === 'object' &&
-        'message' in error &&
-        typeof error.message === 'string'
-      ) {
-        errorMessage = error.message;
-      } else {
-        errorMessage = 'An error occurred';
-      }
-      toast.error(errorMessage);
+      toast.error(errorHandler(error));
     }
   };
 

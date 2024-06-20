@@ -2,6 +2,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Home from './pages';
 import GamePage from './pages/game';
+import NFTPage from './pages/nft';
+import NFTs from './pages/nfts';
 
 const router = createBrowserRouter([
   {
@@ -11,6 +13,14 @@ const router = createBrowserRouter([
   {
     path: '/game',
     element: <GamePage />,
+  },
+  {
+    path: '/nfts',
+    element: <NFTs />,
+  },
+  {
+    path: '/nfts/:id',
+    element: <NFTPage />,
   },
 ]);
 
