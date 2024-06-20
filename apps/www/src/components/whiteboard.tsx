@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useWhiteboard } from '~/lib/hooks';
+import { useDojo, useWhiteboard } from '~/lib/hooks';
 import { deepMutable, errorHandler } from '~/lib/utils';
 
 import {
@@ -39,8 +39,11 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
     updateBoard,
     mintNFT,
   } = useWhiteboard();
-
-  const { address } = useAccount();
+  const {
+    burnerAccount: {
+      account: { address },
+    },
+  } = useDojo();
 
   const layers = useStorage((root) => {
     if (!excalidrawAPI) return null;
@@ -64,6 +67,7 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
     if (!excalidrawAPI) return;
     if (!layers) return;
     if (!address) return;
+
     const boardElements = deepMutable(excalidrawAPI.getSceneElements());
 
     const { shouldUpdateScene, updatedElements } = syncWhiteboard(
