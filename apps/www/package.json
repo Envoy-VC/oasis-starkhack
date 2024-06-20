@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "create-components": "npx @dojoengine/core ../dojo-starter/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts http://localhost:5050 0xb4079627ebab1cd3cf9fd075dda1ad2454a7a448bf659591f259efa2519b18",
+    "create-components": "npx @dojoengine/core ../../packages/contracts/manifests/dev/manifest.json src/lib/dojo/generated/contract-components.ts http://localhost:5050 0x6fa7fa3957de2627d47b860075884c01f45c62461579f4881eee6ab5a9e87bd",
     "dev": "vite",
     "format": "prettier . --write --cache",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

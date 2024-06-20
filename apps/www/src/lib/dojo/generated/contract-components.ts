@@ -27,52 +27,12 @@ export function defineContractComponents(world: World) {
     Game: (() => {
       return defineComponent(
         world,
-        {
-          game_id: RecsType.BigInt,
-          word_hash: RecsType.BigInt,
-          player_1: {
-            address: RecsType.BigInt,
-            game_id: RecsType.BigInt,
-            board_id: RecsType.BigInt,
-          },
-          player_2: {
-            address: RecsType.BigInt,
-            game_id: RecsType.BigInt,
-            board_id: RecsType.BigInt,
-          },
-          player_3: {
-            address: RecsType.BigInt,
-            game_id: RecsType.BigInt,
-            board_id: RecsType.BigInt,
-          },
-          player_4: {
-            address: RecsType.BigInt,
-            game_id: RecsType.BigInt,
-            board_id: RecsType.BigInt,
-          },
-          total_players: RecsType.BigInt,
-        },
+        { game_id: RecsType.BigInt, word_hash: RecsType.BigInt },
         {
           metadata: {
             name: 'Game',
-            types: [
-              'felt252',
-              'felt252',
-              'contractaddress',
-              'felt252',
-              'felt252',
-              'contractaddress',
-              'felt252',
-              'felt252',
-              'contractaddress',
-              'felt252',
-              'felt252',
-              'contractaddress',
-              'felt252',
-              'felt252',
-              'felt252',
-            ],
-            customTypes: ['Player', 'Player', 'Player', 'Player'],
+            types: ['felt252', 'felt252'],
+            customTypes: [],
           },
         }
       );

@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useDojo } from '~/lib/hooks';
+import { errorHandler } from '~/lib/utils';
 import { getRandomWords } from '~/lib/words';
 
+import { useComponentValue } from '@dojoengine/react';
+import { getComponentValue } from '@dojoengine/recs';
+import { getEntityIdFromKeys } from '@dojoengine/utils';
 import ShortUniqueId from 'short-unique-id';
+import { toast } from 'sonner';
 import { hash } from 'starknet';
 
 import { Button } from './ui/button';
@@ -16,34 +21,55 @@ export const NewGame = () => {
   const [words, setWords] = useState<string[]>(getRandomWords(6));
   const [value, setValue] = useState('');
   const [gameID, setGameID] = useState('');
-  const { systemCalls, burnerAccount } = useDojo();
+  const { systemCalls, burnerAccount, clientComponents } = useDojo();
 
   const navigate = useNavigate();
 
-  const onCreate = async () => {
-    if (!value) return;
-    const uid = new ShortUniqueId({ length: 10 });
-    const gameID = uid.rnd();
-    const gameIDHex = `0x${Buffer.from(gameID).toString('hex')}`;
-    const wordHex = `0x${Buffer.from(value).toString('hex')}`;
-    console.log({
-      gameID,
-      gameIDHex,
-      wordHex,
-    });
-    const wordHash = hash.computeHashOnElements(['0x01', wordHex]);
-    console.log('wordHash', wordHash);
+  const res = useComponentValue(
+    clientComponents.Game,
+    getEntityIdFromKeys([
+      BigInt(`0x${Buffer.from('AgDemFqMgd').toString('hex')}`),
+    ])
+  );
 
-    await systemCalls.spawnWorld({
-      account: burnerAccount.account,
-      wordHash: value,
-      gameId: gameID,
-    });
+  const onCreate = async () => {
+    const id = toast.loading('Creating game...');
+    try {
+      if (!value) return;
+      const uid = new ShortUniqueId({ length: 10 });
+      const gameID = uid.rnd();
+      const gameIDHex = `0x${Buffer.from(gameID).toString('hex')}`;
+      const wordHex = `0x${Buffer.from(value).toString('hex')}`;
+      console.log({
+        gameID,
+        gameIDHex,
+        wordHex,
+      });
+      const wordHash = hash.computeHashOnElements(['0x01', wordHex]);
+      console.log('wordHash', wordHash);
+
+      const res = await systemCalls.spawnWorld({
+        account: burnerAccount.account,
+        wordHash: value,
+        gameId: gameID,
+      });
+      console.log('res', res);
+      toast.success('Game created!', { id, description: `ID: ${gameID}` });
+      navigate(`/game?id=${gameID}`);
+    } catch (error) {
+      toast.error(errorHandler(error), { id });
+    }
   };
 
   const onJoin = () => {
     if (!gameID) return;
-    navigate(`/game?id=${gameID}`);
+    const gameIDBigInt = BigInt(`0x${Buffer.from(gameID).toString('hex')}`);
+    console.log('gameIDBigInt', gameIDBigInt);
+    const entity = getEntityIdFromKeys([gameIDBigInt]);
+    const gameComponent = getComponentValue(clientComponents.Game, entity);
+    console.log('gameComponent', gameComponent);
+    console.log(res);
+    // navigate(`/game?id=${gameID}`);
   };
 
   return (
