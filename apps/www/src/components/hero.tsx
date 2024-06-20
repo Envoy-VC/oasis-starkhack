@@ -1,13 +1,15 @@
 import React, { type PropsWithChildren } from 'react';
+import { Link } from 'react-router-dom';
 
 import Illustration from '~/assets/illustration.svg';
 import MousePointer from '~/assets/mouse-pointer.svg';
 
 import { NewGame } from './new-game';
+import { Button } from './ui/button';
 
 export const Hero = () => {
   return (
-    <div className='flex flex-col gap-4 py-24'>
+    <div className='flex flex-col gap-4 py-12'>
       <div className='mx-auto text-center text-7xl font-semibold tracking-wide text-neutral-800'>
         <div className='flex flex-col'>
           <div className='flex flex-row items-center gap-4'>
@@ -22,6 +24,16 @@ export const Hero = () => {
             , Sketch, Own.
           </div>
           <div className='py-4'>The Starknet Art Game</div>
+          <div className='flex flex-col items-center justify-center text-center'>
+            <p className='max-w-3xl text-center text-sm font-medium tracking-normal text-neutral-600'>
+              Collaborate & create creations. See drawing history & mint your
+              creation as an NFT. Guess the art with others! Built with Dojo
+              Engine, Liveblocks, Voyager for a seamless experience.
+            </p>
+            <Link to='/nfts'>
+              <Button className='w-fit'>Discover Creations</Button>
+            </Link>
+          </div>
         </div>
       </div>
       <img
