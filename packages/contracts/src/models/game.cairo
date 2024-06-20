@@ -1,19 +1,14 @@
 use starknet::{ContractAddress,contract_address_to_felt252};
 
-#[derive(Drop, Serde)]
+#[derive(Drop, Serde, PartialEq,PartialOrd)]
 #[dojo::model]
 struct Game {
     #[key]
     game_id: felt252,
     word_hash: felt252,
-    player_1: Player,
-    player_2: Player,
-    player_3: Player,
-    player_4: Player,
-    total_players: felt252,
 }
 
-#[derive(Drop, Serde, Copy)]
+#[derive(Drop, Serde, Copy, Display)]
 #[dojo::model]
 struct Player {
     #[key]

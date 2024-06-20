@@ -8,7 +8,6 @@ mod models {
     mod coin;
 }
 
-mod interfaces {
-    mod token_interface;
-    mod game_interface;
+mod tests {
+    mod test_unit;
 }
