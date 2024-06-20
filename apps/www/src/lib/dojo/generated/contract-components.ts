@@ -43,16 +43,12 @@ export function defineContractComponents(world: World) {
         {
           address: RecsType.BigInt,
           game_id: RecsType.BigInt,
-          board_id: {
-            data: RecsType.BigIntArray,
-            pending_words: RecsType.BigInt,
-            pending_word_len: RecsType.BigInt,
-          },
+          board_id: RecsType.String,
         },
         {
           metadata: {
             name: 'Player',
-            types: ['contractaddress', 'felt252'],
+            types: ['contractaddress', 'felt252', 'ByteArray'],
             customTypes: [],
           },
         }
@@ -111,17 +107,13 @@ export function defineContractComponents(world: World) {
         {
           token_id: RecsType.BigInt,
           game_id: RecsType.BigInt,
-          token_uri: {
-            data: RecsType.BigIntArray,
-            pending_words: RecsType.BigInt,
-            pending_word_len: RecsType.BigInt,
-          },
+          token_uri: RecsType.String,
           address: RecsType.BigInt,
         },
         {
           metadata: {
             name: 'ERC721Owner',
-            types: ['felt252', 'felt252', 'contractaddress'],
+            types: ['felt252', 'felt252', 'contractaddress', 'ByteArray'],
             customTypes: [],
           },
         }

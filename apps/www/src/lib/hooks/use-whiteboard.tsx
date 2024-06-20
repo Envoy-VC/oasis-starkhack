@@ -1,7 +1,7 @@
 import { exportToBlob } from '@excalidraw/excalidraw';
 import { type ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
 import { type ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
-import { sha1 } from '@noble/hashes/sha1';
+import { sha256 } from '@noble/hashes/sha256';
 import { createThirdwebClient } from 'thirdweb';
 import { upload } from 'thirdweb/storage';
 import { create } from 'zustand';
@@ -46,7 +46,7 @@ export const useWhiteboard = () => {
   ) => {
     const userElements = map.get(account.address) ?? [];
     const data = JSON.stringify(userElements);
-    const hash = `0x${Buffer.from(sha1(data)).toString('hex')}`;
+    const hash = `0x${Buffer.from(sha256(data)).toString('hex')}`;
 
     const gameIDHex = `0x${Buffer.from(gameID).toString('hex')}`;
 
@@ -85,19 +85,17 @@ export const useWhiteboard = () => {
       type: 'image/png',
     });
 
-    // const client = createThirdwebClient({
-    //   clientId: 'c9be81ac81ea89c5b75a4786d7e77194',
-    // });
+    const client = createThirdwebClient({
+      clientId: 'c9be81ac81ea89c5b75a4786d7e77194',
+    });
 
-    // const cid = await upload({
-    //   files: [file],
-    //   client,
-    //   uploadWithoutDirectory: true,
-    // });
+    const cid = await upload({
+      files: [file],
+      client,
+      uploadWithoutDirectory: true,
+    });
 
-    // console.log(cid);
-
-    const cidHex = `0x${Buffer.from('ipfs://QmTVkWpG2unQBi194MtrdFcNsNH6hdJ3izcsRVRsAeKxRr').toString('hex')}`;
+    const cidHex = `0x${Buffer.from(cid).toString('hex')}`;
 
     console.log({
       tokenId: '0x0',

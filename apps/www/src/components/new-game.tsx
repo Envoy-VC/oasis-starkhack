@@ -56,10 +56,10 @@ export const NewGame = () => {
   const onJoin = async () => {
     try {
       if (!gameID) return;
-      const gameIDBigInt = BigInt(`0x${Buffer.from(gameID).toString('hex')}`);
+      const gameIDHex = `0x${Buffer.from(gameID).toString('hex')}`;
       const playerEntity = getEntityIdFromKeys([
         BigInt(burnerAccount.account.address),
-        gameIDBigInt,
+        BigInt(gameIDHex),
       ]);
       const playerComponent = getComponentValue(
         clientComponents.Player,

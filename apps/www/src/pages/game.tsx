@@ -26,6 +26,8 @@ const GamePage = () => {
 
   const player = getComponentValue(Player, playerEntity);
 
+  console.log('player', player);
+
   if (!player) {
     return <div>Player not found</div>;
   }

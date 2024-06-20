@@ -64,7 +64,11 @@ mod actions {
     impl GameActionsImpl of IActions<ContractState> {
         fn spawn_game(ref world: IWorldDispatcher, game_id: felt252, word_hash: felt252) {
             let caller = get_caller_address();
-            let player = Player { address: caller, board_id: "" , game_id };
+            let player = Player { 
+                address: caller, 
+                board_id: "0x4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                game_id
+            };
             let game = Game {
                 game_id: game_id,
                 word_hash,
