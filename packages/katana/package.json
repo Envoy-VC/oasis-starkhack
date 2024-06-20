@@ -1,0 +1,12 @@
+{
+  "name": "katana",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pre-dev": "katana --allowed-origins='*' --disable-fee"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

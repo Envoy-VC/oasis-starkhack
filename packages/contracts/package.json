@@ -1,12 +1,14 @@
 {
   "name": "contracts",
   "version": "1.0.0",
-  "description": "<picture>   <source media=\"(prefers-color-scheme: dark)\" srcset=\".github/mark-dark.svg\">   <img alt=\"Dojo logo\" align=\"right\" width=\"120\" src=\".github/mark-light.svg\"> </picture>",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "migrate": "sozo clean && sozo build && sozo migrate apply",
+    "pre-dev": "sozo clean && sozo build && sozo migrate apply",
     "katana": "katana --allowed-origins='*' --disable-fee",
-    "torii": "torii --world 0x6fa7fa3957de2627d47b860075884c01f45c62461579f4881eee6ab5a9e87bd --allowed-origins='*'"
+    "torii": "torii --world 0x6fa7fa3957de2627d47b860075884c01f45c62461579f4881eee6ab5a9e87bd --allowed-origins='*'",
+    "start-servers": "katana --allowed-origins='*' --disable-fee",
+    "dev": "torii --world 0x6fa7fa3957de2627d47b860075884c01f45c62461579f4881eee6ab5a9e87bd --allowed-origins='*'"
   },
   "keywords": [],
   "author": "",

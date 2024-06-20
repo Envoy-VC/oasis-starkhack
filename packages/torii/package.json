@@ -1,0 +1,12 @@
+{
+  "name": "torii",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pre-dev": "torii --world 0x6fa7fa3957de2627d47b860075884c01f45c62461579f4881eee6ab5a9e87bd --allowed-origins='*'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
