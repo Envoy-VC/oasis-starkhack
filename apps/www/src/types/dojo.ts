@@ -19,5 +19,6 @@ export interface UpdateBoardProps extends AccountProps {
 
 export interface MintNFTProps extends AccountProps {
   tokenId: string;
+  gameId: string;
   tokenURI: string;
 }

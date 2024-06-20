@@ -91,3 +91,12 @@ export function deepMutable<T>(obj: T): DeepMutable<T> {
   }
   return obj as DeepMutable<T>;
 }
+
+export const toHex = (data: Uint8Array | number[] | string) => {
+  return `0x${Buffer.from(data).toString('hex')}`;
+};
+
+export const ipfsHashToUrl = (hash: string) => {
+  const cid = hash.startsWith('ipfs://') ? hash.slice(7) : hash;
+  return `https://ipfs.io/ipfs/${cid}`;
+};

@@ -149,7 +149,12 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
                 />
               </div>
               <Button onClick={saveState}>Save State</Button>
-              <Button className='flex items-center gap-2' onClick={mintNFT}>
+              <Button
+                className='flex items-center gap-2'
+                onClick={() => {
+                  void mintNFT(gameID);
+                }}
+              >
                 <Image size={16} />
                 Mint NFT
               </Button>

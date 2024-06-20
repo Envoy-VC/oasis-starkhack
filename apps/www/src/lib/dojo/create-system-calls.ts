@@ -50,11 +50,15 @@ export function createSystemCalls(
     }
   };
 
-  const mintNFT = async ({ account, tokenId, tokenURI }: MintNFTProps) => {
+  const mintNFT = async ({
+    account,
+    tokenId,
+    tokenURI,
+    gameId,
+  }: MintNFTProps) => {
     try {
-      const address = account.address;
       const arr = byteArray.byteArrayFromString(tokenURI);
-      const res = await client.actions.mint(account, address, tokenId, arr);
+      const res = await client.actions.mint(account, tokenId, gameId, arr);
       return res;
     } catch (e) {
       console.log(e);

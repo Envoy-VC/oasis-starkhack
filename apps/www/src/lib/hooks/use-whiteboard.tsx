@@ -3,7 +3,7 @@ import { type ExcalidrawElement } from '@excalidraw/excalidraw/types/element/typ
 import { type ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 import { sha256 } from '@noble/hashes/sha256';
 import { toast } from 'sonner';
-import { createThirdwebClient } from 'thirdweb';
+import { createThirdwebClient, toHex } from 'thirdweb';
 import { upload } from 'thirdweb/storage';
 import { create } from 'zustand';
 
@@ -62,7 +62,7 @@ export const useWhiteboard = () => {
     };
   };
 
-  const mintNFT = async () => {
+  const mintNFT = async (gameId: string) => {
     const id = toast.loading('Minting NFT...');
     try {
       if (!store.excalidrawAPI) {
@@ -93,10 +93,13 @@ export const useWhiteboard = () => {
         uploadWithoutDirectory: true,
       });
 
-      const cidHex = `0x${Buffer.from(cid).toString('hex')}`;
+      const gameIDHex = toHex(gameId);
+
+      const cidHex = toHex(cid);
       // TODO: Logic to update tokenID
       const res = await systemCalls.mintNFT({
         account,
+        gameId: gameIDHex,
         tokenId: '0x0',
         tokenURI: cidHex,
       });
