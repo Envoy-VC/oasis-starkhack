@@ -21,7 +21,8 @@ export const NewGame = () => {
   const [words, setWords] = useState<string[]>(getRandomWords(6));
   const [value, setValue] = useState('');
   const [gameID, setGameID] = useState('');
-  const { systemCalls, burnerAccount, clientComponents } = useDojo();
+  const { systemCalls, burnerAccount, clientComponents, toriiClient } =
+    useDojo();
 
   const navigate = useNavigate();
 
@@ -61,15 +62,31 @@ export const NewGame = () => {
     }
   };
 
-  const onJoin = () => {
-    if (!gameID) return;
-    const gameIDBigInt = BigInt(`0x${Buffer.from(gameID).toString('hex')}`);
-    console.log('gameIDBigInt', gameIDBigInt);
-    const entity = getEntityIdFromKeys([gameIDBigInt]);
-    const gameComponent = getComponentValue(clientComponents.Game, entity);
-    console.log('gameComponent', gameComponent);
-    console.log(res);
-    // navigate(`/game?id=${gameID}`);
+  const onJoin = async () => {
+    try {
+      if (!gameID) return;
+      const gameIDBigInt = BigInt(`0x${Buffer.from(gameID).toString('hex')}`);
+      const playerEntity = getEntityIdFromKeys([
+        BigInt(burnerAccount.account.address),
+        gameIDBigInt,
+      ]);
+      const playerComponent = getComponentValue(
+        clientComponents.Player,
+        playerEntity
+      );
+
+      if (!playerComponent) {
+        // Join Game
+        const res = await systemCalls.joinGame({
+          account: burnerAccount.account,
+          gameId: gameID,
+        });
+        console.log('res', res);
+      }
+      navigate(`/game?id=${gameID}`);
+    } catch (error) {
+      toast.error(errorHandler(error));
+    }
   };
 
   return (

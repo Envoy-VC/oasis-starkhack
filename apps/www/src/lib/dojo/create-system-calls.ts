@@ -2,7 +2,7 @@ import { type ClientComponents } from './create-client-components';
 import { type ContractComponents } from './generated/contract-components';
 import type { IWorld } from './generated/generated';
 
-import type { SpawnGameProps } from '~/types/dojo';
+import type { JoinGameProps, SpawnGameProps } from '~/types/dojo';
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
@@ -20,7 +20,17 @@ export function createSystemCalls(
     }
   };
 
+  const joinGame = async ({ account, gameId }: JoinGameProps) => {
+    try {
+      const res = await client.actions.joinGame(account, gameId);
+      return res;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     spawnWorld,
+    joinGame,
   };
 }

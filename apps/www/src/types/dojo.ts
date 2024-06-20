@@ -7,3 +7,7 @@ export interface SpawnGameProps extends AccountProps {
   gameId: string;
   wordHash: string;
 }
+
+export interface JoinGameProps extends AccountProps {
+  gameId: string;
+}

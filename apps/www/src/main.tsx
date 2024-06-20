@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import 'unfonts.css';
 
 import { dojoConfig } from '../dojoConfig.ts';
+import { Toaster } from './components/ui/sonner.tsx';
 import { DojoProvider } from './lib/dojo/dojo-context.tsx';
 import { setup } from './lib/dojo/generated/setup.ts';
 import { Web3Provider } from './providers/index.ts';
@@ -21,6 +22,7 @@ async function init() {
       <Web3Provider>
         <DojoProvider value={setupResult}>
           <App />
+          <Toaster />
         </DojoProvider>
       </Web3Provider>
     </React.StrictMode>

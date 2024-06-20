@@ -22,9 +22,15 @@ export async function setup({ ...config }: DojoConfig) {
   });
 
   const contractComponents = defineContractComponents(world);
+  console.log(contractComponents);
   const clientComponents = createClientComponents({ contractComponents });
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any -- safe
-  await getSyncEntities(toriiClient, contractComponents as any, []);
+  const subscription = await getSyncEntities(
+    toriiClient,
+    contractComponents as any,
+    []
+  );
+  console.log(subscription);
 
   const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
 
@@ -46,7 +52,7 @@ export async function setup({ ...config }: DojoConfig) {
   });
 
   try {
-    await burnerManager.init(true);
+    await burnerManager.init();
     // if (burnerManager.list().length === 0) {
     // 	await burnerManager.create();
     // }
