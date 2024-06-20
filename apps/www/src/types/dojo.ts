@@ -11,3 +11,8 @@ export interface SpawnGameProps extends AccountProps {
 export interface JoinGameProps extends AccountProps {
   gameId: string;
 }
+
+export interface UpdateBoardProps extends AccountProps {
+  gameId: string;
+  boardId: string;
+}

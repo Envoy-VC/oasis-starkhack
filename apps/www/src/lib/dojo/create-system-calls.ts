@@ -2,7 +2,11 @@ import { type ClientComponents } from './create-client-components';
 import { type ContractComponents } from './generated/contract-components';
 import type { IWorld } from './generated/generated';
 
-import type { JoinGameProps, SpawnGameProps } from '~/types/dojo';
+import type {
+  JoinGameProps,
+  SpawnGameProps,
+  UpdateBoardProps,
+} from '~/types/dojo';
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
@@ -29,8 +33,22 @@ export function createSystemCalls(
     }
   };
 
+  const updateBoard = async ({
+    account,
+    gameId,
+    boardId,
+  }: UpdateBoardProps) => {
+    try {
+      const res = await client.actions.updateBoard(account, gameId, boardId);
+      return res;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     spawnWorld,
     joinGame,
+    updateBoard,
   };
 }

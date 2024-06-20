@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { deepMutable } from '~/lib/utils';
-import { syncWhiteboard, updateWhiteboard } from '~/lib/whiteboard';
+import { useWhiteboard } from '~/lib/hooks';
+import { deepMutable, errorHandler } from '~/lib/utils';
 
 import {
   Excalidraw,
@@ -9,11 +9,11 @@ import {
   Sidebar,
   useHandleLibrary,
 } from '@excalidraw/excalidraw';
-import type { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 import { LiveList, LiveObject } from '@liveblocks/client';
 import { useStorage } from '@liveblocks/react';
 import { useMutation } from '@liveblocks/react/suspense';
 import { useAccount } from '@starknet-react/core';
+import { toast } from 'sonner';
 
 import { TextCopy } from './text-copy';
 import { Button } from './ui/button';
@@ -27,10 +27,17 @@ interface WhiteboardProps {
 }
 
 export const Whiteboard = ({ gameID }: WhiteboardProps) => {
-  const [excalidrawAPI, setExcalidrawAPI] =
-    useState<ExcalidrawImperativeAPI | null>(null);
-  const [isSynced, setIsSynced] = useState<boolean>(false);
-  const [docked, setDocked] = useState<boolean>(false);
+  const {
+    excalidrawAPI,
+    setExcalidrawAPI,
+    isSynced,
+    setIsSynced,
+    docked,
+    setDocked,
+    syncWhiteboard,
+    updateWhiteboard,
+    updateBoard,
+  } = useWhiteboard();
 
   const { address } = useAccount();
 
@@ -83,6 +90,16 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
     []
   );
 
+  const saveState = async () => {
+    if (!layers) return;
+    try {
+      const { boardID } = await updateBoard(layers.map, gameID);
+      toast.success('State saved', { description: `ID: ${boardID}` });
+    } catch (error) {
+      toast.error(errorHandler(error));
+    }
+  };
+
   return (
     <div className='h-screen w-full'>
       <Excalidraw
@@ -126,7 +143,7 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
                   }}
                 />
               </div>
-              <Button>Save State</Button>
+              <Button onClick={saveState}>Save State</Button>
               <Button className='flex items-center gap-2'>
                 <Image size={16} />
                 Mint NFT
