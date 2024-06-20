@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { truncate } from '~/lib/utils';
 
-import { GameDetails, Navbar } from '~/components';
+import { GameDetails, Guess, Navbar } from '~/components';
 
 import {
   Breadcrumb,
@@ -41,11 +41,9 @@ const NFTPage = () => {
           className='aspect-video w-full rounded-lg'
           src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnf9UQ9mIkZoRWSY5l3oz2wGukuh5eVS8T2A&s'
         />
-        <div className='flex flex-row items-center gap-4'>
+        <div className='grid grid-cols-2 gap-4'>
           <GameDetails gameID={gameID} />
-          <div className='flex w-full basis-1/2 rounded-xl bg-[#d5e2ff] p-4'>
-            Guess
-          </div>
+          <Guess gameID={gameID} />
         </div>
       </div>
     </div>
