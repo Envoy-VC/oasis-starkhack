@@ -6,7 +6,7 @@ use starknet::account::ContractAddress;
 trait IActions<T> {
     fn spawn_game(ref world: IWorldDispatcher, game_id: felt252, word_hash: felt252);
     fn join_game(ref world: IWorldDispatcher, game_id: felt252);
-    fn update_board(ref world: IWorldDispatcher, game_id: felt252, board_id: felt252);
+    fn update_board(ref world: IWorldDispatcher, game_id: felt252, board_id: ByteArray);
     fn guess_word(ref world: IWorldDispatcher, game_id: felt252, word: felt252);
 }
 
@@ -19,16 +19,15 @@ trait ERC721ABI<T> {
 
     // Read Methods
     fn balance_of(ref world: IWorldDispatcher, account: ContractAddress) -> ERC721Balance;
-    fn owner_of(ref world: IWorldDispatcher, token_id: felt252) -> ERC721Owner;
-    fn token_uri(ref world: IWorldDispatcher, token_id: felt252) -> felt252;
-    // fn token_exists(ref world: IWorldDispatcher, token_id: felt252) -> bool;
+    fn owner_of(ref world: IWorldDispatcher, token_id: felt252, game_id: felt252) -> ERC721Owner;
+    fn token_uri(ref world: IWorldDispatcher, token_id: felt252, game_id: felt252) -> ByteArray;
 
     // Write Methods
     fn mint(
-        ref world: IWorldDispatcher, 
-        address: ContractAddress, 
-        token_id: felt252, 
-        token_uri: felt252
+        ref world: IWorldDispatcher,
+        token_id: felt252,
+        game_id: felt252,
+        token_uri: ByteArray
     ); 
 }
 
@@ -44,9 +43,9 @@ mod actions {
         get_contract_address
     };
 
-    use starksketch::models::game::{Game,Player,Rewards};
+    use starksketch::models::game::{Game,Player,Rewards,GameEvents,GameSpawned,PlayerJoined,BoardUpdated,RewardsClaimed};
     use starksketch::models::coin::CoinBalance;
-    use starksketch::models::token::{ERC721Meta,ERC721Balance,ERC721Owner};
+    use starksketch::models::token::{ERC721Meta,ERC721Balance,ERC721Owner,ERC721Events,TokenMinted};
 
     use super::{IActions,ERC721ABI};
 
@@ -65,35 +64,53 @@ mod actions {
     impl GameActionsImpl of IActions<ContractState> {
         fn spawn_game(ref world: IWorldDispatcher, game_id: felt252, word_hash: felt252) {
             let caller = get_caller_address();
-            let player = Player { address: caller, board_id: 1 , game_id };
+            let player = Player { address: caller, board_id: "" , game_id };
             let game = Game {
                 game_id: game_id,
                 word_hash,
             };
             set!(world,(game));
             set!(world,(player));
+            emit!(world, (GameEvents::GameSpawned(
+                GameSpawned {
+                    game_id
+                }
+            )));
         }
         fn join_game(ref world: IWorldDispatcher, game_id: felt252) {
             let caller = get_caller_address();
             let  old: Player = get!(world, (caller, game_id), (Player));
 
-            if(old.board_id != 0) {
+            if(old.board_id != "") {
                 panic!("Player already joined a board");
             }
 
-            let player = Player { address: caller, board_id: 1, game_id };
+            let player = Player { address: caller, board_id: "", game_id };
             set!(world,(player));
+            emit!(world, (GameEvents::PlayerJoined(
+                PlayerJoined {
+                    game_id,
+                    player: caller
+                }
+            )));
         }
-        fn update_board(ref world: IWorldDispatcher, game_id: felt252, board_id: felt252) {
+        fn update_board(ref world: IWorldDispatcher, game_id: felt252, board_id: ByteArray) {
             let caller = get_caller_address();
             let mut player: Player = get!(world, (caller, game_id), (Player));
 
-            if(player.board_id == 0) {
+            if(player.board_id == "") {
                 panic!("Player has not joined a board yet");
             }
 
             player.board_id = board_id;
             set!(world,(player));
+
+            emit!(world, (GameEvents::BoardUpdated(
+                BoardUpdated {
+                    game_id,
+                    player: caller,
+                }
+            )));
         }
 
         fn guess_word(ref world: IWorldDispatcher, game_id: felt252, word: felt252) {
@@ -115,6 +132,13 @@ mod actions {
                 set!(world,(coin_balance));
                 set!(world,(rewards));
             }
+
+            emit!(world, (GameEvents::RewardsClaimed(
+                RewardsClaimed {
+                    game_id,
+                    player: caller
+                }
+            )));
         }
     }
 
@@ -139,41 +163,51 @@ mod actions {
         }
 
         fn balance_of(ref world: IWorldDispatcher, account: ContractAddress) -> ERC721Balance {
-            let token = get_contract_address();
-            let balance: ERC721Balance = get!(world, (account, token), (ERC721Balance));
+            let balance: ERC721Balance = get!(world, (account), (ERC721Balance));
             balance
         }
 
-        fn owner_of(ref world: IWorldDispatcher, token_id: felt252) -> ERC721Owner {
-            let token = get_contract_address();
-            let owner: ERC721Owner =  get!(world, (token_id, token), (ERC721Owner));
+        fn owner_of(ref world: IWorldDispatcher, token_id: felt252, game_id: felt252) -> ERC721Owner {
+            let owner: ERC721Owner =  get!(world, (token_id,game_id), (ERC721Owner));
             owner
         }
 
-        fn token_uri(ref world: IWorldDispatcher, token_id: felt252) -> felt252 {
-            let token = get_contract_address();
-            let owner: ERC721Owner = get!(world, (token_id, token), (ERC721Owner));
+        fn token_uri(ref world: IWorldDispatcher, token_id: felt252, game_id: felt252) -> ByteArray {
+            let owner: ERC721Owner = get!(world, (token_id, game_id), (ERC721Owner));
             owner.token_uri
         }
 
        fn mint(
             ref world: IWorldDispatcher, 
-            address: ContractAddress, 
-            token_id: felt252, 
-            token_uri: felt252
+            token_id: felt252,
+            game_id: felt252,
+            token_uri: ByteArray
         ) {
-            let token = get_contract_address();
-            // check if token exists
-            let owner: ERC721Owner = get!(world, (token_id, token), (ERC721Owner));
-            if owner.address != ContractAddressZero::zero() {
-                return;
+            let address = get_caller_address();
+            let mut owner: ERC721Owner = get!(world, (token_id, game_id), (ERC721Owner));
+
+            if(owner.address != core::starknet::contract_address_const::<0x0>()) {
+                panic!("Token already minted");
             }
-            let owner = ERC721Owner { address, token_uri, token, token_id };
-            let mut balance: ERC721Balance = get!(world, (token, address), (ERC721Balance));
+
+            owner.address = address;
+            owner.token_uri = token_uri;
+            owner.game_id = game_id;
+            owner.token_id = token_id;
+
+            let mut balance: ERC721Balance = get!(world, (address), (ERC721Balance));
             balance.amount += 1;
 
             set!(world, (owner));
             set!(world, (balance));
+
+            emit!(world, (ERC721Events::TokenMinted(
+                TokenMinted {
+                    token_id,
+                    game_id,
+                    owner: address
+                }
+            )));
         }
     }
 }

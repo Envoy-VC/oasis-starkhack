@@ -10,13 +10,13 @@ struct ERC721Meta {
 }
 
 #[dojo::model]
-#[derive(Copy, Drop, Serde)]
+#[derive(Drop, Serde)]
 struct ERC721Owner {
     #[key]
-    token: ContractAddress,
-    #[key]
     token_id: felt252,
-    token_uri: felt252,
+    #[key]
+    game_id: felt252,
+    token_uri: ByteArray,
     address: ContractAddress
 }
 
@@ -24,8 +24,24 @@ struct ERC721Owner {
 #[derive(Model, Copy, Drop, Serde)]
 struct ERC721Balance {
     #[key]
-    token: ContractAddress,
-    #[key]
     account: ContractAddress,
     amount: u256,
+}
+
+
+// Events
+
+#[event]
+#[derive(Drop, starknet::Event)]
+enum ERC721Events {
+    TokenMinted: TokenMinted,
+}
+
+#[derive(Drop, Serde, starknet::Event)]
+struct TokenMinted {
+    #[key]
+    token_id: felt252,
+    #[key]
+    game_id: felt252,
+    owner: ContractAddress
 }

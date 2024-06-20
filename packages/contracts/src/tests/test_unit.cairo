@@ -2,6 +2,7 @@
 mod tests {
     use starknet::ContractAddress;
     use dojo::test_utils::{spawn_test_world, deploy_contract};
+    use dojo::test_utils::get_caller_address;
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
     use starksketch::{
@@ -14,7 +15,7 @@ mod tests {
     };
 
     use starknet::testing::{set_caller_address};
-    use starknet::{get_caller_address,contract_address_to_felt252,get_contract_address};
+    use starknet::{contract_address_to_felt252,get_contract_address};
 
     // helper setup function
     #[test]
@@ -55,11 +56,74 @@ mod tests {
     }
 
     #[test]
-    fn test_meta() {
-        let (world, game_actions, erc721_actions) = setup_world();
-        let meta: ERC721Meta = get!(world,get_contract_address() , (ERC721Meta));
-        println!("name: {:?}", meta.name);
-        println!("symbol: {:?}", meta.symbol);
-        
+    fn test_mint() {
+        let (world, _game_actions, erc721_actions) = setup_world();
+        let caller = get_caller_address();
+        let token_id = 1;
+        let game_id = 1;
+        let token_uri = "QmTVkWpG2unQBi194MtrdFcNsNH6hdJ3izcsRVRsAeKxRr";
+
+        //system calls
+        erc721_actions.mint(token_id, game_id, token_uri);
+
+        let owner: ERC721Owner = get!(world, (token_id, game_id), (ERC721Owner));
+        let balance: ERC721Balance = get!(world, (caller), (ERC721Balance));
+
+        // print!("Token URI: {:?}", owner.token_uri);
+        assert!(owner.address == caller, "should have caller as owner");
+        assert!(balance.amount == 1, "should have 1 token");
+    }
+    #[test]
+    fn test_guess_corret_word() {
+        let (world, game_actions, _erc721_actions) = setup_world();
+
+        let caller = get_caller_address();
+        let game_id = 1;
+        let word = 2;
+        let word_hash = core::pedersen::pedersen(game_id, word);
+
+        //system calls
+        game_actions.spawn_game(game_id, word_hash);
+        game_actions.guess_word(game_id, word);
+
+        let mut rewards: Rewards = get!(world, (caller,game_id), (Rewards));
+        let coin: CoinBalance = get!(world, caller, (CoinBalance));
+
+        assert!(rewards.claimed == true, "should have claimed rewards");
+        assert!(coin.balance == 500, "should have 100 coins");
+    }
+
+    #[test]
+    fn test_guess_wrong_word() {
+        let (world, game_actions, _erc721_actions) = setup_world();
+
+        let caller = get_caller_address();
+        let game_id = 1;
+        let word = 2;
+        let word_hash = core::pedersen::pedersen(game_id, word);
+
+        //system calls
+        game_actions.spawn_game(game_id, word_hash);
+        game_actions.guess_word(game_id, 3);
+
+        let mut rewards: Rewards = get!(world, (caller,game_id), (Rewards));
+        let coin: CoinBalance = get!(world, caller, (CoinBalance));
+
+        assert!(rewards.claimed == false, "should not have claimed rewards");
+        assert!(coin.balance == 0, "should have 0 coins");
+    }
+
+     #[test]
+     #[should_panic]
+    fn test_panic_double_guess() {
+        let (_world, game_actions, _erc721_actions) = setup_world();
+        let game_id = 1;
+        let word = 2;
+        let word_hash = core::pedersen::pedersen(game_id, word);
+
+        //system calls
+        game_actions.spawn_game(game_id, word_hash);
+        game_actions.guess_word(game_id, word);
+        game_actions.guess_word(game_id, word);
     }
 }
