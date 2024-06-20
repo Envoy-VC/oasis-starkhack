@@ -11,24 +11,34 @@ import {
   SelectValue,
 } from '~/components/ui/select';
 
+import { Button } from './ui/button';
+
 export const BurnerConnect = () => {
-  const { account } = useDojo();
+  const { burnerAccount } = useDojo();
   return (
     <div>
       <Select
         onValueChange={(value) => {
-          account.select(value);
+          burnerAccount.select(value);
         }}
       >
         <SelectTrigger className='w-[180px]'>
           <SelectValue placeholder='Burner Account' />
         </SelectTrigger>
         <SelectContent>
-          {account.list().map((burner) => (
+          {burnerAccount.list().map((burner) => (
             <SelectItem key={burner.address} value={burner.address}>
               {truncate(burner.address)}
             </SelectItem>
           ))}
+          <Button
+            className='my-1 w-full'
+            onClick={() => {
+              burnerAccount.create();
+            }}
+          >
+            Create Burner
+          </Button>
         </SelectContent>
       </Select>
     </div>

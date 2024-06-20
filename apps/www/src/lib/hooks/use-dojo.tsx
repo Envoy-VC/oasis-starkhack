@@ -8,7 +8,6 @@ export const useDojo = () => {
     throw new Error('The `useDojo` hook must be used within a `DojoProvider`');
 
   return {
-    setup: context,
-    account: context.burnerAccount,
+    ...context,
   };
 };

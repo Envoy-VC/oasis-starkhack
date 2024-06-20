@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useDojo } from '~/lib/hooks';
 import { getRandomWords } from '~/lib/words';
+
+import ShortUniqueId from 'short-unique-id';
+import { hash } from 'starknet';
 
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -12,10 +16,30 @@ export const NewGame = () => {
   const [words, setWords] = useState<string[]>(getRandomWords(6));
   const [value, setValue] = useState('');
   const [gameID, setGameID] = useState('');
+  const { systemCalls, burnerAccount } = useDojo();
 
   const navigate = useNavigate();
 
-  const onCreate = async () => {};
+  const onCreate = async () => {
+    if (!value) return;
+    const uid = new ShortUniqueId({ length: 10 });
+    const gameID = uid.rnd();
+    const gameIDHex = `0x${Buffer.from(gameID).toString('hex')}`;
+    const wordHex = `0x${Buffer.from(value).toString('hex')}`;
+    console.log({
+      gameID,
+      gameIDHex,
+      wordHex,
+    });
+    const wordHash = hash.computeHashOnElements(['0x01', wordHex]);
+    console.log('wordHash', wordHash);
+
+    await systemCalls.spawnWorld({
+      account: burnerAccount.account,
+      wordHash: value,
+      gameId: gameID,
+    });
+  };
 
   const onJoin = () => {
     if (!gameID) return;
@@ -56,7 +80,7 @@ export const NewGame = () => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <Button>Start Game</Button>
+          <Button onClick={onCreate}>Start Game</Button>
         </div>
         <div className='flex w-full items-center gap-2 py-2 text-neutral-500'>
           <div className='w-full border border-neutral-400' />
