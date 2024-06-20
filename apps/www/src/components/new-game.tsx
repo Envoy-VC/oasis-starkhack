@@ -5,7 +5,6 @@ import { useDojo } from '~/lib/hooks';
 import { errorHandler } from '~/lib/utils';
 import { getRandomWords } from '~/lib/words';
 
-import { useComponentValue } from '@dojoengine/react';
 import { getComponentValue } from '@dojoengine/recs';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 import ShortUniqueId from 'short-unique-id';
@@ -21,17 +20,9 @@ export const NewGame = () => {
   const [words, setWords] = useState<string[]>(getRandomWords(6));
   const [value, setValue] = useState('');
   const [gameID, setGameID] = useState('');
-  const { systemCalls, burnerAccount, clientComponents, toriiClient } =
-    useDojo();
+  const { systemCalls, burnerAccount, clientComponents } = useDojo();
 
   const navigate = useNavigate();
-
-  const res = useComponentValue(
-    clientComponents.Game,
-    getEntityIdFromKeys([
-      BigInt(`0x${Buffer.from('AgDemFqMgd').toString('hex')}`),
-    ])
-  );
 
   const onCreate = async () => {
     const id = toast.loading('Creating game...');
