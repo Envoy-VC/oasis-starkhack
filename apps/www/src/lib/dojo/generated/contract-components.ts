@@ -43,12 +43,16 @@ export function defineContractComponents(world: World) {
         {
           address: RecsType.BigInt,
           game_id: RecsType.BigInt,
-          board_id: RecsType.BigInt,
+          board_id: {
+            data: RecsType.BigIntArray,
+            pending_words: RecsType.BigInt,
+            pending_word_len: RecsType.BigInt,
+          },
         },
         {
           metadata: {
             name: 'Player',
-            types: ['contractaddress', 'felt252', 'felt252'],
+            types: ['contractaddress', 'felt252'],
             customTypes: [],
           },
         }
@@ -74,15 +78,11 @@ export function defineContractComponents(world: World) {
     ERC721Balance: (() => {
       return defineComponent(
         world,
-        {
-          token: RecsType.BigInt,
-          account: RecsType.BigInt,
-          amount: RecsType.BigInt,
-        },
+        { account: RecsType.BigInt, amount: RecsType.BigInt },
         {
           metadata: {
             name: 'ERC721Balance',
-            types: ['contractaddress', 'contractaddress', 'u256'],
+            types: ['contractaddress', 'u256'],
             customTypes: [],
           },
         }
@@ -109,15 +109,19 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          token: RecsType.BigInt,
           token_id: RecsType.BigInt,
-          token_uri: RecsType.BigInt,
+          game_id: RecsType.BigInt,
+          token_uri: {
+            data: RecsType.BigIntArray,
+            pending_words: RecsType.BigInt,
+            pending_word_len: RecsType.BigInt,
+          },
           address: RecsType.BigInt,
         },
         {
           metadata: {
             name: 'ERC721Owner',
-            types: ['contractaddress', 'felt252', 'felt252', 'contractaddress'],
+            types: ['felt252', 'felt252', 'contractaddress'],
             customTypes: [],
           },
         }

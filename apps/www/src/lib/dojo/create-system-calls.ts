@@ -1,9 +1,12 @@
+import { byteArray } from 'starknet';
+
 import { type ClientComponents } from './create-client-components';
 import { type ContractComponents } from './generated/contract-components';
 import type { IWorld } from './generated/generated';
 
 import type {
   JoinGameProps,
+  MintNFTProps,
   SpawnGameProps,
   UpdateBoardProps,
 } from '~/types/dojo';
@@ -39,7 +42,19 @@ export function createSystemCalls(
     boardId,
   }: UpdateBoardProps) => {
     try {
-      const res = await client.actions.updateBoard(account, gameId, boardId);
+      const arr = byteArray.byteArrayFromString(boardId);
+      const res = await client.actions.updateBoard(account, gameId, arr);
+      return res;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const mintNFT = async ({ account, tokenId, tokenURI }: MintNFTProps) => {
+    try {
+      const address = account.address;
+      const arr = byteArray.byteArrayFromString(tokenURI);
+      const res = await client.actions.mint(account, address, tokenId, arr);
       return res;
     } catch (e) {
       console.log(e);
@@ -50,5 +65,6 @@ export function createSystemCalls(
     spawnWorld,
     joinGame,
     updateBoard,
+    mintNFT,
   };
 }
