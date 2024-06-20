@@ -105,6 +105,9 @@ importers:
       next-themes:
         specifier: ^0.3.0
         version: 0.3.0(react-dom@18.3.1)(react@18.3.1)
+      pedersen-fast:
+        specifier: ^0.4.0
+        version: 0.4.0
       proxy-deep:
         specifier: ^3.1.1
         version: 3.1.1
@@ -234,6 +237,10 @@ importers:
         version: 5.4.5
 
   packages/contracts: {}
+
+  packages/katana: {}
+
+  packages/torii: {}
 
 packages:
 
@@ -7791,6 +7798,10 @@ packages:
 
   /pathe@1.1.2:
     resolution: {integrity: sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==}
+    dev: false
+
+  /pedersen-fast@0.4.0:
+    resolution: {integrity: sha512-eCK2Z7QNWW0tMHI7npGzwF8nM61gkcQbVKMrwIyAl65BaOQLdot0enWv2Gx3O/20rbqPzo0JCl2fKqKOstkebw==}
     dev: false
 
   /picocolors@1.0.1:

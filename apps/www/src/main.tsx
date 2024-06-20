@@ -7,21 +7,21 @@ import { dojoConfig } from '../dojoConfig.ts';
 import { DojoProvider } from './lib/dojo/dojo-context.tsx';
 import { setup } from './lib/dojo/generated/setup.ts';
 import { Web3Provider } from './providers/index.ts';
-import App from './router.tsx';
+import { App } from './router.tsx';
 import './styles/global.css';
 
 async function init() {
   const rootElement = document.getElementById('root');
   if (!rootElement) throw new Error('React root not found');
   const root = createRoot(rootElement);
-  // const setupResult = await setup(dojoConfig);
+  const setupResult = await setup(dojoConfig);
 
   root.render(
     <React.StrictMode>
       <Web3Provider>
-        {/* <DojoProvider value={setupResult}> */}
-        <App />
-        {/* </DojoProvider> */}
+        <DojoProvider value={setupResult}>
+          <App />
+        </DojoProvider>
       </Web3Provider>
     </React.StrictMode>
   );
