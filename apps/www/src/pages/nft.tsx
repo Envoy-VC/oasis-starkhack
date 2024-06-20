@@ -1,8 +1,12 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
-import { truncate } from '~/lib/utils';
+import { useDojo } from '~/lib/hooks';
+import { ipfsHashToUrl, truncate } from '~/lib/utils';
 
+import { useComponentValue } from '@dojoengine/react';
+import { getEntityIdFromKeys, hexToAscii } from '@dojoengine/utils';
+import { toHex } from 'thirdweb';
 import { GameDetails, Guess, Navbar } from '~/components';
 
 import {
@@ -15,8 +19,21 @@ import {
 } from '~/components/ui/breadcrumb';
 
 const NFTPage = () => {
-  const { pathname } = useLocation();
-  const gameID = pathname.split('/').pop() ?? ''; // Get the last part of the URL
+  const {
+    clientComponents: { ERC721Owner },
+  } = useDojo();
+  const [searchParams] = useSearchParams();
+
+  const gameID = searchParams.get('gameID') ?? '';
+  const tokenId = searchParams.get('tokenId') ?? '';
+
+  const entity = getEntityIdFromKeys([BigInt(tokenId), BigInt(toHex(gameID))]);
+  const nft = useComponentValue(ERC721Owner, entity);
+
+  if (!nft) {
+    return null;
+  }
+
   return (
     <div>
       <Navbar />
@@ -39,7 +56,7 @@ const NFTPage = () => {
         <img
           alt='Whiteboard'
           className='aspect-video w-full rounded-lg'
-          src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnf9UQ9mIkZoRWSY5l3oz2wGukuh5eVS8T2A&s'
+          src={ipfsHashToUrl(hexToAscii(nft.token_uri))}
         />
         <div className='grid grid-cols-2 gap-4'>
           <GameDetails gameID={gameID} />

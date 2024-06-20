@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useDojo } from '~/lib/hooks';
-import { errorHandler } from '~/lib/utils';
+import { errorHandler, toHex } from '~/lib/utils';
 import { getRandomWords } from '~/lib/words';
 
 import { getComponentValue } from '@dojoengine/recs';
@@ -30,20 +30,14 @@ export const NewGame = () => {
       if (!value) return;
       const uid = new ShortUniqueId({ length: 10 });
       const gameID = uid.rnd();
-      const gameIDHex = `0x${Buffer.from(gameID).toString('hex')}`;
-      const wordHex = `0x${Buffer.from(value).toString('hex')}`;
-      console.log({
-        gameID,
-        gameIDHex,
-        wordHex,
-      });
-      const wordHash = hash.computeHashOnElements(['0x01', wordHex]);
-      console.log('wordHash', wordHash);
+      const gameIDHex = toHex(gameID);
+      const wordHex = toHex(value);
+      const wordHash = hash.computePedersenHash(gameIDHex, wordHex);
 
       const res = await systemCalls.spawnWorld({
         account: burnerAccount.account,
-        wordHash: value,
-        gameId: gameID,
+        wordHash,
+        gameId: gameIDHex,
       });
       console.log('res', res);
       toast.success('Game created!', { id, description: `ID: ${gameID}` });

@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     element: <NFTs />,
   },
   {
-    path: '/nfts/:id',
+    path: '/nft',
     element: <NFTPage />,
   },
 ]);

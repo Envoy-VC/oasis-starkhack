@@ -54,7 +54,6 @@ export const truncate = (
 };
 
 export const errorHandler = (error: unknown) => {
-  console.error(error);
   if (error instanceof Error) {
     return error.message;
   } else if (typeof error === 'string') {

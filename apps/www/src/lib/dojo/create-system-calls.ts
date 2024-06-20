@@ -5,6 +5,7 @@ import { type ContractComponents } from './generated/contract-components';
 import type { IWorld } from './generated/generated';
 
 import type {
+  GuessWordProps,
   JoinGameProps,
   MintNFTProps,
   SpawnGameProps,
@@ -65,10 +66,16 @@ export function createSystemCalls(
     }
   };
 
+  const guessWord = async ({ account, gameId, word }: GuessWordProps) => {
+    const res = await client.actions.guessWord(account, gameId, word);
+    return res;
+  };
+
   return {
     spawnWorld,
     joinGame,
     updateBoard,
     mintNFT,
+    guessWord,
   };
 }

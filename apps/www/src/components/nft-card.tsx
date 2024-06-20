@@ -24,12 +24,12 @@ export const NFTCard = (props: NFTCardProps) => {
     return null;
   }
   const gameID = hexToAscii(String(nft.game_id));
-  console.log(nft.game_id);
+  const tokenId = String(nft.token_id);
 
   return (
     <Link
       className='w-full rounded-lg bg-[#ceddff] p-3 shadow-[rgba(0,0,0,0.1)_0px_1px_3px_0px,rgba(0,0,0,0.06)_0px_1px_2px_0px]'
-      to={gameID}
+      to={`/nft?gameID=${gameID}&tokenId=${tokenId}`}
     >
       <div className='aspect-video rounded-md'>
         <img
