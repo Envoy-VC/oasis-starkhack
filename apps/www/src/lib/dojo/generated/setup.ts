@@ -33,7 +33,10 @@ export async function setup({ ...config }: DojoConfig) {
     []
   );
 
-  const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
+  const dojoProvider = new DojoProvider(
+    config.manifest,
+    import.meta.env.VITE_RPC_URL as string
+  );
   const client = setupWorld(dojoProvider);
 
   let burnerManager: BurnerManager | null;
