@@ -13,9 +13,10 @@ import { world } from './world';
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
 export async function setup({ ...config }: DojoConfig) {
+  console.log(config);
   const toriiClient = await torii.createClient([], {
     rpcUrl: config.rpcUrl,
-    toriiUrl: config.toriiUrl,
+    toriiUrl: 'https://api.cartridge.gg/x/starksketch-torii/torii',
     relayUrl: '',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- safe
     worldAddress: config.manifest.world.address || '',
@@ -36,31 +37,29 @@ export async function setup({ ...config }: DojoConfig) {
 
   const client = setupWorld(dojoProvider);
 
-  const masterAccount = new Account(
-    {
-      nodeUrl: config.rpcUrl,
-    },
-    config.masterAddress,
-    config.masterPrivateKey
-  );
+  // const masterAccount = new Account(
+  //   {
+  //     nodeUrl: config.rpcUrl,
+  //   },
+  //   config.masterAddress,
+  //   config.masterPrivateKey
+  // );
 
-  const burnerManager = new BurnerManager({
-    masterAccount,
-    accountClassHash: config.accountClassHash,
-    rpcProvider: dojoProvider.provider,
-    feeTokenAddress: config.feeTokenAddress,
-  });
+  // const burnerManager = new BurnerManager({
+  //   masterAccount,
+  //   accountClassHash: config.accountClassHash,
+  //   rpcProvider: dojoProvider.provider,
+  //   feeTokenAddress: config.feeTokenAddress,
+  // });
 
-  try {
-    await burnerManager.init();
-    // if (burnerManager.list().length === 0) {
-    // 	await burnerManager.create();
-    // }
-  } catch (e) {
-    console.error(e);
-  }
-
-  console.log(burnerManager);
+  // try {
+  //   await burnerManager.init();
+  //   // if (burnerManager.list().length === 0) {
+  //   // 	await burnerManager.create();
+  //   // }
+  // } catch (e) {
+  //   console.error(e);
+  // }
 
   return {
     client,
@@ -79,7 +78,7 @@ export async function setup({ ...config }: DojoConfig) {
     },
     config,
     dojoProvider,
-    burnerManager,
+    burnerManager: null,
     toriiClient,
   };
 }

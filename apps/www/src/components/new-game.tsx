@@ -7,6 +7,7 @@ import { getRandomWords } from '~/lib/words';
 
 import { getComponentValue } from '@dojoengine/recs';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
+import { useAccount } from '@starknet-react/core';
 import ShortUniqueId from 'short-unique-id';
 import { toast } from 'sonner';
 import { hash } from 'starknet';
@@ -20,13 +21,18 @@ export const NewGame = () => {
   const [words, setWords] = useState<string[]>(getRandomWords(6));
   const [value, setValue] = useState('');
   const [gameID, setGameID] = useState('');
-  const { systemCalls, burnerAccount, clientComponents } = useDojo();
+  const { systemCalls, clientComponents } = useDojo();
+
+  const { account } = useAccount();
 
   const navigate = useNavigate();
 
   const onCreate = async () => {
     const id = toast.loading('Creating game...');
     try {
+      if (!account) {
+        throw new Error('Connect your wallet to create a game.');
+      }
       if (!value) return;
       const uid = new ShortUniqueId({ length: 10 });
       const gameID = uid.rnd();
@@ -34,12 +40,11 @@ export const NewGame = () => {
       const wordHex = toHex(value);
       const wordHash = hash.computePedersenHash(gameIDHex, wordHex);
 
-      const res = await systemCalls.spawnWorld({
-        account: burnerAccount.account,
+      await systemCalls.spawnWorld({
+        account,
         wordHash,
         gameId: gameIDHex,
       });
-      console.log('res', res);
       toast.success('Game created!', { id, description: `ID: ${gameID}` });
       navigate(`/game?id=${gameID}`);
     } catch (error) {
@@ -49,10 +54,15 @@ export const NewGame = () => {
 
   const onJoin = async () => {
     try {
-      if (!gameID) return;
+      if (!gameID) {
+        throw new Error('Enter a valid game ID to join.');
+      }
+      if (!account) {
+        throw new Error('Connect your wallet to join a game.');
+      }
       const gameIDHex = `0x${Buffer.from(gameID).toString('hex')}`;
       const playerEntity = getEntityIdFromKeys([
-        BigInt(burnerAccount.account.address),
+        BigInt(account.address),
         BigInt(gameIDHex),
       ]);
       const playerComponent = getComponentValue(
@@ -63,7 +73,7 @@ export const NewGame = () => {
       if (!playerComponent) {
         // Join Game
         const res = await systemCalls.joinGame({
-          account: burnerAccount.account,
+          account,
           gameId: gameID,
         });
         console.log('res', res);

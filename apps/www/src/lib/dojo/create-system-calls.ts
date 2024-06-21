@@ -20,21 +20,13 @@ export function createSystemCalls(
   _clientComponents: ClientComponents
 ) {
   const spawnWorld = async ({ account, gameId, wordHash }: SpawnGameProps) => {
-    try {
-      const res = await client.actions.spawnGame(account, gameId, wordHash);
-      return res;
-    } catch (e) {
-      console.log(e);
-    }
+    const res = await client.actions.spawnGame(account, gameId, wordHash);
+    return res;
   };
 
   const joinGame = async ({ account, gameId }: JoinGameProps) => {
-    try {
-      const res = await client.actions.joinGame(account, gameId);
-      return res;
-    } catch (e) {
-      console.log(e);
-    }
+    const res = await client.actions.joinGame(account, gameId);
+    return res;
   };
 
   const updateBoard = async ({
@@ -42,13 +34,9 @@ export function createSystemCalls(
     gameId,
     boardId,
   }: UpdateBoardProps) => {
-    try {
-      const arr = byteArray.byteArrayFromString(boardId);
-      const res = await client.actions.updateBoard(account, gameId, arr);
-      return res;
-    } catch (e) {
-      console.log(e);
-    }
+    const arr = byteArray.byteArrayFromString(boardId);
+    const res = await client.actions.updateBoard(account, gameId, arr);
+    return res;
   };
 
   const mintNFT = async ({
@@ -57,13 +45,9 @@ export function createSystemCalls(
     tokenURI,
     gameId,
   }: MintNFTProps) => {
-    try {
-      const arr = byteArray.byteArrayFromString(tokenURI);
-      const res = await client.actions.mint(account, tokenId, gameId, arr);
-      return res;
-    } catch (e) {
-      console.log(e);
-    }
+    const arr = byteArray.byteArrayFromString(tokenURI);
+    const res = await client.actions.mint(account, tokenId, gameId, arr);
+    return res;
   };
 
   const guessWord = async ({ account, gameId, word }: GuessWordProps) => {
