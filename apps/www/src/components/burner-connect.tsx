@@ -18,6 +18,12 @@ export const BurnerConnect = () => {
 
   if (!burnerAccount) return null;
 
+  const getActiveAccount = () => {
+    return burnerAccount.getActiveAccount
+      ? burnerAccount.getActiveAccount()?.address
+      : undefined;
+  };
+
   return (
     <div>
       <Select
@@ -25,7 +31,10 @@ export const BurnerConnect = () => {
           burnerAccount.select(value);
         }}
       >
-        <SelectTrigger className='w-[180px]'>
+        <SelectTrigger
+          className='w-[256px] bg-white'
+          value={getActiveAccount()}
+        >
           <SelectValue placeholder='Burner Account' />
         </SelectTrigger>
         <SelectContent>

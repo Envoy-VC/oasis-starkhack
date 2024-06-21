@@ -13,7 +13,6 @@ import { world } from './world';
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
 export async function setup({ ...config }: DojoConfig) {
-  console.log(config);
   const toriiClient = await torii.createClient([], {
     rpcUrl: import.meta.env.VITE_RPC_URL as string,
     toriiUrl: import.meta.env.VITE_TORII_URL as string,

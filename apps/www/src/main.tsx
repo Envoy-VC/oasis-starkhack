@@ -17,6 +17,7 @@ async function init() {
   const root = createRoot(rootElement);
   const setupResult = await setup(dojoConfig);
 
+
   root.render(
     <React.StrictMode>
       <Web3Provider>
