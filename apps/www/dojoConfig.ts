@@ -1,6 +1,6 @@
 import { createDojoConfig } from '@dojoengine/core';
 
-import manifest from '../../packages/contracts/manifests/dev/manifest.json';
+import manifest from './src/assets/manifest.json';
 
 export const dojoConfig = createDojoConfig({
   manifest,
