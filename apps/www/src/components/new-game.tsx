@@ -45,6 +45,9 @@ export const NewGame = () => {
         gameId: gameIDHex,
       });
       toast.success('Game created!', { id, description: `ID: ${gameID}` });
+      await new Promise((resolve) => {
+        setTimeout(resolve, 5000);
+      });
       navigate(`/game?id=${gameID}`);
     } catch (error) {
       toast.error(errorHandler(error), { id });
