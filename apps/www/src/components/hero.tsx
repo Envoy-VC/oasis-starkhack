@@ -10,9 +10,9 @@ import { Button } from './ui/button';
 export const Hero = () => {
   return (
     <div className='flex flex-col gap-4 py-12'>
-      <div className='mx-auto text-center text-7xl font-semibold tracking-wide text-neutral-800'>
+      <div className='mx-auto text-center text-5xl font-semibold tracking-wide text-neutral-800 lg:text-7xl'>
         <div className='flex flex-col'>
-          <div className='flex flex-row items-center gap-4'>
+          <div className='flex flex-row items-center gap-2 lg:gap-4'>
             <div className='relative'>
               <img
                 alt='Mouse Pointer'

@@ -53,11 +53,13 @@ const NFTPage = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <img
-          alt='Whiteboard'
-          className='aspect-video w-full rounded-lg'
-          src={ipfsHashToUrl(hexToAscii(nft.token_uri))}
-        />
+        <div className='aspect-video w-full bg-white rounded-lg'>
+          <img
+            alt='Whiteboard'
+            className='w-full rounded-lg aspect-video object-scale-down'
+            src={ipfsHashToUrl(hexToAscii(nft.token_uri))}
+          />
+        </div>
         <div className='grid grid-cols-2 gap-4'>
           <GameDetails gameID={gameID} />
           <Guess gameID={gameID} />

@@ -51,11 +51,11 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
     return res;
   });
 
-  // sync every 1 seconds
+  // sync every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       sync();
-    }, 1000);
+    }, 3000);
     return () => clearInterval(interval);
   }, [layers, excalidrawAPI, address]);
 
@@ -65,10 +65,16 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
     if (!address) return;
 
     const boardElements = deepMutable(excalidrawAPI.getSceneElements());
+    const deleted = deepMutable(
+      excalidrawAPI
+        .getSceneElementsIncludingDeleted()
+        .filter((e) => e.isDeleted)
+    );
 
     const { shouldUpdateScene, updatedElements } = syncWhiteboard(
       layers,
       boardElements,
+      deleted,
       address
     );
     if (!shouldUpdateScene) {
@@ -109,7 +115,7 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
           <div className='flex flex-row items-center gap-2'>
             <Button
               className='flex items-center gap-2'
-              disabled={isSynced}
+              // disabled={isSynced}
               onClick={sync}
             >
               {isSynced ? 'Synced' : 'Sync'}

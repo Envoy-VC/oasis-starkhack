@@ -39,6 +39,7 @@ export const updateWhiteboard = (
   });
 
   const newElements = elements as ExcalidrawElement[];
+
   // find common elements
   const commonElements = newElements.filter((element) =>
     boardElements.find((e) => e.id === element.id)
@@ -67,14 +68,23 @@ type UpdateWhiteboardReturnType = ReturnType<typeof updateWhiteboard>;
 export const syncWhiteboard = (
   store: UpdateWhiteboardReturnType,
   boardElements: DeepMutableArray<NonDeletedExcalidrawElement>,
+  deletedElements: DeepMutableArray<NonDeletedExcalidrawElement>,
   address: string
 ) => {
   // get elements that are not in the store
   const newElements = boardElements.filter(
     (element) => !store.storeElements.find((e) => e.id === element.id)
   );
+
+  const storeElements = store.map.get(address) ?? [];
+
+  // remove deleted elements from the store elements
+  const updatedStoreElements = storeElements.filter(
+    (element) => !deletedElements.find((e) => e.id === element.id)
+  );
+
   const updatedElements = [
-    ...(store.map.get(address) ?? []),
+    ...updatedStoreElements,
     ...newElements,
   ] as ExcalidrawElement[];
 
