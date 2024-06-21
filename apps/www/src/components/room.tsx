@@ -11,13 +11,12 @@ interface RoomProps {
 }
 
 export const Room = ({ children, id }: RoomProps) => {
-  console.log(id);
   return (
     <LiveblocksProvider
       publicApiKey={import.meta.env.VITE_LIVEBLOCKS_API_KEY as string}
     >
       <RoomProvider
-        id='my-room'
+        id={id}
         initialStorage={{
           layers: new LiveMap(),
         }}

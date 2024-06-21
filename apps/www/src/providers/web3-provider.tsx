@@ -1,5 +1,3 @@
-'use client';
-
 import { type PropsWithChildren, useEffect } from 'react';
 
 import { cn } from '~/lib/utils';
@@ -57,7 +55,6 @@ const DynamicProvider = ({ children }: PropsWithChildren) => {
     <DynamicContextProvider
       settings={{
         walletConnectors: [StarknetWalletConnectors],
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- safe
         environmentId: import.meta.env.VITE_DYNAMIC_ENV_ID as string,
         events: {
           onAuthSuccess: ({ primaryWallet }) => {

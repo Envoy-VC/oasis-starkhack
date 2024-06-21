@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useDojo } from '~/lib/hooks';
+import { useAccount, useDojo } from '~/lib/hooks';
 import { errorHandler, toHex } from '~/lib/utils';
 import { getRandomWords } from '~/lib/words';
 
 import { getComponentValue } from '@dojoengine/recs';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
-import { useAccount } from '@starknet-react/core';
 import ShortUniqueId from 'short-unique-id';
 import { toast } from 'sonner';
 import { hash } from 'starknet';

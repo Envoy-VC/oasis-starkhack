@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useDojo, useWhiteboard } from '~/lib/hooks';
+import { useAccount, useWhiteboard } from '~/lib/hooks';
 import { deepMutable, errorHandler } from '~/lib/utils';
 
 import {
@@ -12,7 +12,6 @@ import {
 import { LiveList, LiveObject } from '@liveblocks/client';
 import { useStorage } from '@liveblocks/react';
 import { useMutation } from '@liveblocks/react/suspense';
-import { useAccount } from '@starknet-react/core';
 import { toast } from 'sonner';
 
 import { TextCopy } from './text-copy';
@@ -39,11 +38,6 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
     updateBoard,
     mintNFT,
   } = useWhiteboard();
-  // const {
-  //   burnerAccount: {
-  //     account: { address },
-  //   },
-  // } = useDojo();
 
   const { address } = useAccount();
 

@@ -53,7 +53,6 @@ const Box = ({ children }: PropsWithChildren) => {
       <div className='absolute left-0 top-0 aspect-square -translate-x-1/2 -translate-y-1/2 bg-[#5487ff] p-[6px]' />
       <div className='absolute bottom-0 left-0 aspect-square -translate-x-1/2 translate-y-1/2 bg-[#5487ff] p-[6px]' />
       <div className='absolute bottom-0 right-0 aspect-square translate-x-1/2 translate-y-1/2 bg-[#5487ff] p-[6px]' />
-
       {children}
     </span>
   );

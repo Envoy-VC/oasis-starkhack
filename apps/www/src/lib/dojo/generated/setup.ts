@@ -1,5 +1,5 @@
 import { type DojoConfig, DojoProvider } from '@dojoengine/core';
-// import { BurnerManager } from '@dojoengine/create-burner';
+import { BurnerManager } from '@dojoengine/create-burner';
 import { getSyncEntities } from '@dojoengine/state';
 import * as torii from '@dojoengine/torii-client';
 import { Account, type WeierstrassSignatureType } from 'starknet';
@@ -15,51 +15,57 @@ export type SetupResult = Awaited<ReturnType<typeof setup>>;
 export async function setup({ ...config }: DojoConfig) {
   console.log(config);
   const toriiClient = await torii.createClient([], {
-    rpcUrl: config.rpcUrl,
-    toriiUrl: 'https://api.cartridge.gg/x/starksketch-torii/torii',
+    rpcUrl: import.meta.env.VITE_RPC_URL as string,
+    toriiUrl: import.meta.env.VITE_TORII_URL as string,
     relayUrl: '',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- safe
     worldAddress: config.manifest.world.address || '',
   });
 
   const contractComponents = defineContractComponents(world);
-  console.log(contractComponents);
   const clientComponents = createClientComponents({ contractComponents });
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any -- safe
-  const subscription = await getSyncEntities(
+
+  const isKatana = import.meta.env.VITE_CHAIN === 'KATANA';
+
+  await getSyncEntities(
     toriiClient,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any -- safe
     contractComponents as any,
     []
   );
-  console.log(subscription);
 
   const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
-
   const client = setupWorld(dojoProvider);
 
-  // const masterAccount = new Account(
-  //   {
-  //     nodeUrl: config.rpcUrl,
-  //   },
-  //   config.masterAddress,
-  //   config.masterPrivateKey
-  // );
+  let burnerManager: BurnerManager | null;
 
-  // const burnerManager = new BurnerManager({
-  //   masterAccount,
-  //   accountClassHash: config.accountClassHash,
-  //   rpcProvider: dojoProvider.provider,
-  //   feeTokenAddress: config.feeTokenAddress,
-  // });
+  if (isKatana) {
+    const masterAccount = new Account(
+      {
+        nodeUrl: config.rpcUrl,
+      },
+      config.masterAddress,
+      config.masterPrivateKey
+    );
 
-  // try {
-  //   await burnerManager.init();
-  //   // if (burnerManager.list().length === 0) {
-  //   // 	await burnerManager.create();
-  //   // }
-  // } catch (e) {
-  //   console.error(e);
-  // }
+    burnerManager = new BurnerManager({
+      masterAccount,
+      accountClassHash: config.accountClassHash,
+      rpcProvider: dojoProvider.provider,
+      feeTokenAddress: config.feeTokenAddress,
+    });
+
+    try {
+      await burnerManager.init();
+      if (burnerManager.list().length === 0) {
+        await burnerManager.create();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  } else {
+    burnerManager = null;
+  }
 
   return {
     client,
@@ -78,7 +84,7 @@ export async function setup({ ...config }: DojoConfig) {
     },
     config,
     dojoProvider,
-    burnerManager: null,
+    burnerManager,
     toriiClient,
   };
 }

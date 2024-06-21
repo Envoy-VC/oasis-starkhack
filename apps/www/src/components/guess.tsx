@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
-import { useDojo } from '~/lib/hooks';
+import { useAccount, useDojo } from '~/lib/hooks';
 import { toHex } from '~/lib/utils';
 
 import { getComponentValue } from '@dojoengine/recs';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
-import { useAccount } from '@starknet-react/core';
 import { toast } from 'sonner';
 import { hash } from 'starknet';
 

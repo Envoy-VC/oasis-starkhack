@@ -14,10 +14,13 @@ import {
 import { Button } from './ui/button';
 
 export const BurnerConnect = () => {
-  // const { burnerAccount } = useDojo();
+  const { burnerAccount } = useDojo();
+
+  if (!burnerAccount) return null;
+
   return (
     <div>
-      {/* <Select
+      <Select
         onValueChange={(value) => {
           burnerAccount.select(value);
         }}
@@ -40,7 +43,7 @@ export const BurnerConnect = () => {
             Create Burner
           </Button>
         </SelectContent>
-      </Select> */}
+      </Select>
     </div>
   );
 };

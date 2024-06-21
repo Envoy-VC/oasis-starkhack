@@ -2,7 +2,6 @@ import { exportToBlob } from '@excalidraw/excalidraw';
 import { type ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
 import { type ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
 import { sha256 } from '@noble/hashes/sha256';
-import { useAccount } from '@starknet-react/core';
 import { toast } from 'sonner';
 import { createThirdwebClient, toHex } from 'thirdweb';
 import { upload } from 'thirdweb/storage';
@@ -10,6 +9,7 @@ import { create } from 'zustand';
 
 import { errorHandler } from '../utils';
 import { shouldUpdate, syncWhiteboard, updateWhiteboard } from '../whiteboard';
+import { useAccount } from './use-account';
 import { useDojo } from './use-dojo';
 
 interface WhiteboardState {
@@ -37,11 +37,7 @@ export const useWhiteboardStore = create<WhiteboardState & WhiteboardActions>(
 
 export const useWhiteboard = () => {
   const store = useWhiteboardStore();
-  const {
-    // burnerAccount: { account },
-    systemCalls,
-  } = useDojo();
-
+  const { systemCalls } = useDojo();
   const { account } = useAccount();
 
   const updateBoard = async (

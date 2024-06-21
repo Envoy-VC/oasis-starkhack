@@ -1,16 +1,14 @@
 import { useSearchParams } from 'react-router-dom';
 
-import { useDojo } from '~/lib/hooks';
+import { useAccount, useDojo } from '~/lib/hooks';
 
 import { getComponentValue } from '@dojoengine/recs';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
-import { useAccount } from '@starknet-react/core';
 import { Room, Whiteboard } from '~/components';
 
 const GamePage = () => {
   const [searchParams] = useSearchParams();
   const {
-    // burnerAccount: { account },
     clientComponents: { Player },
   } = useDojo();
 
