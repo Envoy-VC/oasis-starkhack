@@ -14,9 +14,9 @@ export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
 export async function setup({ ...config }: DojoConfig) {
   const toriiClient = await torii.createClient([], {
-    rpcUrl: import.meta.env.VITE_RPC_URL as string,
-    toriiUrl: import.meta.env.VITE_TORII_URL as string,
-    relayUrl: '',
+    rpcUrl: config.rpcUrl,
+    toriiUrl: config.toriiUrl,
+    relayUrl: config.relayUrl,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- safe
     worldAddress: config.manifest.world.address || '',
   });
@@ -33,18 +33,20 @@ export async function setup({ ...config }: DojoConfig) {
     []
   );
 
-  const dojoProvider = new DojoProvider(
-    config.manifest,
-    import.meta.env.VITE_RPC_URL as string
-  );
+  const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
   const client = setupWorld(dojoProvider);
 
   let burnerManager: BurnerManager | null;
 
+  console.log({
+    config,
+    dojoProvider,
+  });
+
   if (isKatana) {
     const masterAccount = new Account(
       {
-        nodeUrl: config.rpcUrl,
+        nodeUrl: import.meta.env.VITE_RPC_URL as string,
       },
       config.masterAddress,
       config.masterPrivateKey
@@ -59,9 +61,6 @@ export async function setup({ ...config }: DojoConfig) {
 
     try {
       await burnerManager.init();
-      if (burnerManager.list().length === 0) {
-        await burnerManager.create();
-      }
     } catch (e) {
       console.error(e);
     }
