@@ -30,14 +30,7 @@ private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a
 world_address = "0x6fa7fa3957de2627d47b860075884c01f45c62461579f4881eee6ab5a9e87bd"
 
 [tool.dojo.world]
-name = "Dojo starter"
-description = "The official Dojo Starter guide, the quickest and most streamlined way to get your Dojo Autonomous World up and running. This guide will assist you with the initial setup, from cloning the repository to deploying your world."
-cover_uri = "file://assets/cover.png"
-icon_uri = "file://assets/icon.png"
-website = "https://github.com/dojoengine/dojo-starter"
-
-[tool.dojo.world.socials]
-x = "https://x.com/ohayo_dojo"
-discord = "https://discord.gg/FB2wR6uF"
-github = "https://github.com/dojoengine/dojo-starter"
-telegram = "https://t.me/dojoengine"
+name = "StarkSketch"
+description = "Collaborate & create creations. See drawing history & mint your creation as an NFT. Guess the art with others! Built with Dojo Engine, Liveblocks, Voyager for a seamless experience."
+icon_uri = "file://assets/logo.svg"
+website = "https://github.com/Envoy-VC/starksketch"

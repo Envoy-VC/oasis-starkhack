@@ -1,42 +1,65 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/mark-dark.svg">
-  <img alt="Dojo logo" align="right" width="120" src=".github/mark-light.svg">
-</picture>
+```
+Migration account: 0x6658135c023e062e0878cc81e40e207b5b12857d31823b48b4bfb35cdf1349e
 
-<a href="https://twitter.com/dojostarknet">
-<img src="https://img.shields.io/twitter/follow/dojostarknet?style=social"/>
-</a>
-<a href="https://github.com/dojoengine/dojo">
-<img src="https://img.shields.io/github/stars/dojoengine/dojo?style=social"/>
-</a>
+World name: starksketch
 
-[![discord](https://img.shields.io/badge/join-dojo-green?logo=discord&logoColor=white)](https://discord.gg/PwDa2mKhR4)
-[![Telegram Chat][tg-badge]][tg-url]
+Chain ID: SN_SEPOLIA
 
-[tg-badge]: https://img.shields.io/endpoint?color=neon&logo=telegram&label=chat&style=flat-square&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2Fdojoengine
-[tg-url]: https://t.me/dojoengine
+[1] 🌎 Building World state....
+  > No remote World found
+[2] 🧰 Evaluating Worlds diff....
+  > Total diffs found: 9
+[3] 📦 Preparing for migration....
+  > Total items to be migrated (9): New 9 Update 0
+[4] 🛠 Migrating....
 
-# Dojo Starter: Official Guide
+# Base Contract
+  > Already declared: 0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46
+# World
+  > Contract address: 0x6fa7fa3957de2627d47b860075884c01f45c62461579f4881eee6ab5a9e87bd
+# Models (7)
+starksketch::models::coin::coin_balance
+  > Already declared: 0x57263831cb322493af533120e82ed7cc70cba80629b25dcb188dddd9b3c9338
+starksketch::models::game::game
+  > Already declared: 0x146e3b674cc345092643f65caa2527f361868c1831d97b79023064f26aeca3d
+starksketch::models::game::player
+  > Already declared: 0x6de731f836136b44811ab8f21de43c8959ebe13b8533d45608633bc889482b6
+starksketch::models::game::rewards
+  > Already declared: 0x2fe1f5ec00e6732e15fba978b5075e1df7547ff274d9869de5317d6d0558e35
+starksketch::models::token::erc_721_balance
+  > Already declared: 0x5217c2ae318ce72b92d042acc9614dcc91b738425f2c0a26201ce59e7bb8c89
+starksketch::models::token::erc_721_meta
+  > Already declared: 0x9e63aa446d750e9a2846b99f564e141e94399b8681657a91ca80ccd1d7c54
+starksketch::models::token::erc_721_owner
+  > Already declared: 0x68967d4a73c14075b3a092a9c9c4bdcba7231c3f921890c5102114914e1584b
+All models are registered at: 0x144401b178ac0283f391e6a16f8308613a4656d216c249de025ff7f301b6c3d
+# Contracts (1)
+starksketch::systems::actions::actions
+  > Contract address: 0x2077fbbcb892c6785c7ca111da872905a3e4b3340541492e10b810ef154121b
 
-The official Dojo Starter guide, the quickest and most streamlined way to get your Dojo provable game up and running. This guide will assist you with the initial setup, from cloning the repository to deploying your world.
+🎉 Successfully migrated World at address 0x6fa7fa3957de2627d47b860075884c01f45c62461579f4881eee6ab5a9e87bd
 
-Read the full tutorial [here](https://book.dojoengine.org/tutorial/dojo-starter).
+[5] ✨ Updating manifests....
 
----
+✨ Done.
 
-## Contribution
+[6] 🖋️ Authorizing Models to Systems (based on overlay)....
 
-This starter project is a constant work in progress and contributions are greatly appreciated!
+  > Authorizing starksketch::systems::actions::actions for Models: []
+  > Auto authorize completed successfully
 
-1. **Report a Bug**
+[7] 🌐 Uploading metadata....
 
-   - If you think you have encountered a bug, and we should know about it, feel free to report it [here](https://github.com/dojoengine/dojo-starter/issues) and we will take care of it.
+  > starksketch::models::token::erc_721_meta: ipfs://QmWoPbZvRcLDRQFq2yzm8mTxgZBWzvMPXBBQ42Mp6LzQHD
+  > starksketch::models::coin::coin_balance: ipfs://QmZSgkRCx5sT9t4SRQyyk7ZkoVyHxTBvGbEHNNHdHuVr4Q
+  > starksketch::models::game::player: ipfs://QmQAiZkXxonMS5VDNWEP5Kbti6Uv7AqgbCMnSGoR6Z8CCN
+  > starksketch::models::game::rewards: ipfs://QmRBu8HhkPc7iJt8CR6E5f5fFNGcae3EDrtLv59Dh9U985
+  > starksketch::models::token::erc_721_balance: ipfs://QmTvBrwkfTdLf3fv4C7mwhQePfjyDDDsbBMBb2gx8c1NBp
+  > starksketch::systems::actions::actions: ipfs://QmPYpG8oDq4oYcVh1ueybuCqE6zSnSC1EJ5hSD9SWQTVwz
+  > starksketch::models::token::erc_721_owner: ipfs://QmUBCqddWLYrE2Z6Q7Agw3cb4Z9dDY1o7KsWr7aLt3BXkT
+  > starksketch::models::game::game: ipfs://QmTZFvUY8eEBjNvgQXr8Z6PNXvgY42eqfZvHo3Wu87ZrKG
+> All IPFS artifacts have been successfully uploaded.
+> All metadata have been registered in the resource registry (tx hash: 0x6b8444133d2bb8fda2e470f123d3e627937332edf124b7501a0782a789f1f90)
 
-2. **Request a Feature**
-
-   - You can also request for a feature [here](https://github.com/dojoengine/dojo-starter/issues), and if it's viable, it will be picked for development.
-
-3. **Create a Pull Request**
-   - It can't get better then this, your pull request will be appreciated by the community.
-
-Happy coding!
+✨ Done.
+```
