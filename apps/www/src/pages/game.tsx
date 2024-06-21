@@ -4,14 +4,21 @@ import { useDojo } from '~/lib/hooks';
 
 import { getComponentValue } from '@dojoengine/recs';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
+import { useAccount } from '@starknet-react/core';
 import { Room, Whiteboard } from '~/components';
 
 const GamePage = () => {
   const [searchParams] = useSearchParams();
   const {
-    burnerAccount: { account },
+    // burnerAccount: { account },
     clientComponents: { Player },
   } = useDojo();
+
+  const { account } = useAccount();
+
+  if (!account) {
+    return <div>Connect your wallet to join a game.</div>;
+  }
 
   const gameID = searchParams.get('id');
 

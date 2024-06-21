@@ -5,6 +5,7 @@ import { toHex } from '~/lib/utils';
 
 import { getComponentValue } from '@dojoengine/recs';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
+import { useAccount } from '@starknet-react/core';
 import { toast } from 'sonner';
 import { hash } from 'starknet';
 
@@ -21,13 +22,17 @@ export const Guess = ({ gameID }: GuessProps) => {
   const {
     clientComponents: { Game },
     systemCalls: { guessWord },
-    burnerAccount: { account },
   } = useDojo();
+
+  const { account } = useAccount();
 
   const onGuess = async () => {
     if (!value) return;
     const id = toast.loading('Guessing word...');
     try {
+      if (!account) {
+        throw new Error('Connect your wallet to guess a word.');
+      }
       const word = toHex(value);
       const gameIdHex = toHex(gameID);
 

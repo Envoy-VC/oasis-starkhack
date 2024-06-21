@@ -5,7 +5,7 @@ import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 
 import Logo from '~/assets/logo.svg';
 
-import { BurnerConnect } from './burner-connect';
+// import { BurnerConnect } from './burner-connect';
 
 export const Navbar = () => {
   return (
@@ -20,7 +20,7 @@ export const Navbar = () => {
           <div className='text-2xl font-bold'>StarkSketch</div>
         </Link>
         <div className='flex flex-row gap-2'>
-          <BurnerConnect />
+          {/* <BurnerConnect /> */}
           <DynamicWidget
             innerButtonComponent={<div>Connect Wallet</div>}
             variant='modal'

@@ -1,6 +1,5 @@
 import { type Account, type AccountInterface } from 'starknet';
 
-
 export interface AccountProps {
   account: Account | AccountInterface;
 }
@@ -23,7 +22,6 @@ export interface MintNFTProps extends AccountProps {
   gameId: string;
   tokenURI: string;
 }
-
 
 export interface GuessWordProps extends AccountProps {
   gameId: string;

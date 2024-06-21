@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { DeepMutable, DeepMutableObject } from '~/types/liveblocks';
+import { type DeepMutable, type DeepMutableObject } from '~/types/liveblocks';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

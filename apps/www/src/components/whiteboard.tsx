@@ -39,11 +39,13 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
     updateBoard,
     mintNFT,
   } = useWhiteboard();
-  const {
-    burnerAccount: {
-      account: { address },
-    },
-  } = useDojo();
+  // const {
+  //   burnerAccount: {
+  //     account: { address },
+  //   },
+  // } = useDojo();
+
+  const { address } = useAccount();
 
   const layers = useStorage((root) => {
     if (!excalidrawAPI) return null;
