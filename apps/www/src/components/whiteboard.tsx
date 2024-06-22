@@ -54,7 +54,7 @@ export const Whiteboard = ({ gameID }: WhiteboardProps) => {
   // sync every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      // sync();
+      sync();
     }, 3000);
     return () => clearInterval(interval);
   }, [layers, excalidrawAPI, address]);

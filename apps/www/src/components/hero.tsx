@@ -28,7 +28,7 @@ export const Hero = () => {
             <p className='max-w-3xl text-center text-sm font-medium tracking-normal text-neutral-600'>
               Collaborate & create creations. See drawing history & mint your
               creation as an NFT. Guess the art with others! Built with Dojo
-              Engine, Liveblocks, Voyager for a seamless experience.
+              Engine, Liveblocks, Dynamic for a seamless experience.
             </p>
             <Link to='/nfts'>
               <Button className='w-fit'>Discover Creations</Button>
