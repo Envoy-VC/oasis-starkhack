@@ -1,3 +1,5 @@
+Contracts are declared both on Starknet Sepolia and deployed Slot Instance. Here are the contracts:
+
 ```
 Migration account: 0x6658135c023e062e0878cc81e40e207b5b12857d31823b48b4bfb35cdf1349e
 
@@ -62,4 +64,13 @@ starksketch::systems::actions::actions
 > All metadata have been registered in the resource registry (tx hash: 0x6b8444133d2bb8fda2e470f123d3e627937332edf124b7501a0782a789f1f90)
 
 ✨ Done.
+```
+
+And these are the Deployed Slot Instances
+
+```
+SLOT TORII URL: https://api.cartridge.gg/x/starksketch-katana-torii/torii
+SLOT KATANA URL: https://api.cartridge.gg/x/starksketch-katana/katana
+
+SLOT SEPOLIA TORII URL: https://api.cartridge.gg/x/starksketch-sepolia-torii/torii
 ```
